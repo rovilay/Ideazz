@@ -13,7 +13,12 @@ const Routes = {
 };
 
 const AppNavigator = createStackNavigator(Routes, { 
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+        header: null
+    }
 });
 
-export default  createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(AppNavigator);
+
+export default AppContainer;

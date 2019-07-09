@@ -5,7 +5,7 @@ import authPagesStyles from "./styles";
 const SignupScreen = () => {
     return (
         <View style={authPagesStyles.container}>
-            <Text style={authPagesStyles.title}>Signup Page</Text>
+            <Text style={{ ...authPagesStyles.title, fontFamily: 'vince' }}>Signup Page</Text>
         </View>
     );
 }

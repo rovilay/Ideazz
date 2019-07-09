@@ -1,5 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
+import { Button } from 'react-native-elements';
+
 import PropTypes from 'prop-types';
 
 import buttonStyles from './styles';
@@ -7,20 +9,18 @@ import buttonStyles from './styles';
 const CustomButton = (props) => {
     const { 
         title, customStyles,
-        customTextStyles, handleButtonPress
+        customTextStyles, handleButtonPress,
+        icon
     } = props;
     
     return (
-        <TouchableOpacity 
-            style={[buttonStyles.button, customStyles]}
+        <Button 
+            buttonStyle={customStyles}
             onPress={handleButtonPress}
-        >
-            <View>
-                <Text style={[buttonStyles.buttonText, customTextStyles]}>
-                    {title}
-                </Text>
-            </View>
-        </TouchableOpacity>
+            title={title}
+            titleStyle={{ textTransform: 'capitalize', ...customTextStyles }}
+            icon={icon}
+        />
     );
 }
 
@@ -28,13 +28,14 @@ CustomButton.propTypes = {
     title: PropTypes.string,
     customStyles: PropTypes.object,
     customTextStyles: PropTypes.object,
-    handleButtonPress: PropTypes.func
+    handleButtonPress: PropTypes.func,
+    icon: PropTypes.func
 };
 
 CustomButton.defaultProps = {
     title: 'click here',
     customStyles: {},
-    customTextStyles: {}
+    customTextStyles: {},
 };
 
 export default CustomButton;

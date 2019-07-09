@@ -1,21 +1,47 @@
 import { StyleSheet } from 'react-native';
-import { red } from 'ansi-colors';
+import generalStyles from '../../components/generalStyles';
 
 const homePageStyles = StyleSheet.create({
 	container: {
         flex: 1,
 		justifyContent: 'flex-start',
         alignItems: 'center',
-        borderColor: 'red',
-        borderWidth: 1
+        fontFamily: 'vince',
+        // borderColor: 'red',
+        // borderWidth: 1,
+        backgroundColor: 'transparent'
+    },
+    backgroundImage: {
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover'
+    },
+    header: {
+        flexBasis: '15%'
+    },
+    content: {
+        flexBasis: '85%',
+        justifyContent: 'center',
+        // alignItems: '',
+        // borderColor: 'blue',
+        // borderWidth: 1,
+        width: '100%',
+        // height: '100%',
     },
     title: {
-        fontWeight: 'bold',
-        fontSize: 24,
+        fontFamily: 'vince',
+        fontSize: 30,
+        color: generalStyles.whiteColor.color
+    },
+    intro: {
+        fontFamily: 'vince',
+        fontSize: 60,
+        color: generalStyles.whiteColor.color
     },
     button: {
         fontSize: 42, 
-        backgroundColor: 'red'
+        // backgroundColor: 'red',
     }
 });
 
