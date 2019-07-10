@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71aaa621-3d2b-42ac-aff4-93a89f334182" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomButton/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomButton/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomButton/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomButton/styles.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/generalStyles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/generalStyles.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CustomText/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomText/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Auth/LoginScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Auth/LoginScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Auth/SignupScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Auth/SignupScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Auth/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Auth/styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/HomeScreen/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/HomeScreen/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/HomeScreen/styles.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/HomeScreen/styles.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
@@ -32,9 +32,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">

@@ -12,7 +12,7 @@ const CustomText = (props) => {
     const renderText = () => {
         if (fontLoaded) {
             return (
-                <Text style={{ ...customStyles }}>
+                <Text {...props} style={{ ...customStyles }}>
                     {children}
                 </Text>
             );

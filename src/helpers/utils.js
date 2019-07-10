@@ -5,3 +5,8 @@ export const fontLoader = () => {
         'vince': require('../../assets/fonts/vinchand.ttf'),
     });
 }
+
+export const handleNavigation = (navigationProp, pageName) => {
+    const { navigate } = navigationProp;
+    return navigate(pageName);
+}

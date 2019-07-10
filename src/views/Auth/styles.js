@@ -4,12 +4,12 @@ import generalStyles from '../../components/generalStyles';
 const authPagesStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
         alignItems: 'center',
         width:  '100%'
     },
     title: {
-        fontSize: 50,
+        fontSize: 35,
         fontFamily: 'vince',
         color: generalStyles.defaultColor.color,
         textAlign: 'center',
@@ -19,6 +19,9 @@ const authPagesStyles = StyleSheet.create({
     formContainer: { 
         width: '100%',
         padding: 5,
+        marginTop: '10%',
+        borderWidth: 0,
+        borderColor: 'pink'
     },
     form: {
         paddingLeft: 5,
@@ -41,8 +44,8 @@ const authPagesStyles = StyleSheet.create({
         fontSize: 24
     },
     formButtonContainer: {
-        paddingLeft: 12,
-        paddingRight: 12, 
+        paddingLeft: 15,
+        paddingRight: 15, 
     },
     formButtonText: {
         fontFamily: 'vince',
@@ -64,7 +67,8 @@ const authPagesStyles = StyleSheet.create({
         padding: 5,
         paddingLeft: 10,
         paddingRight: 10,
-        fontSize: 20
+        fontSize: 20,
+        textDecorationLine: 'underline',
     },
     error: {
         fontFamily: 'vince',

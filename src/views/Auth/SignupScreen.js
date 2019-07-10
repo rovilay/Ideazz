@@ -3,13 +3,15 @@ import { View, ActivityIndicator } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 
-import { fontLoader } from "../../helpers/utils";
+import { fontLoader, handleNavigation } from "../../helpers/utils";
 import Text from "../../components/CustomText";
+import Layout from '../../components/Layout';
 import authPagesStyles from "./styles";
 import generalStyles from "../../components/generalStyles";
 import { emailRegx, nameRegx } from "../../helpers/defaults";
+import LinkText from '../../components/LinkText';
 
-const SignupScreen = () => {
+const SignupScreen = (props) => {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formFields, setFormFields] = useState({
         name: {
@@ -174,12 +176,17 @@ const SignupScreen = () => {
         });
     };
 
+    const handleLoginClick = () => {
+        handleNavigation(props.navigation, 'Login');
+    };
+
+
     const renderForm = () => {
         if (fontLoaded) {
             return (
                 <View style={authPagesStyles.formContainer}>
                     <Text fontLoaded={fontLoaded} 
-                        customStyles={{ ...authPagesStyles.title }}
+                        customStyles={authPagesStyles.title }
                     >Sign up</Text>
                     <View style={authPagesStyles.form}
                     >
@@ -196,6 +203,7 @@ const SignupScreen = () => {
                             inputStyle={authPagesStyles.formInput}
                             leftIconContainerStyle={{ marginRight: 10 }}
                             onChangeText={validateNameField}
+                            selectionColor={generalStyles.defaultColor.color}
                             textContentType="name"
                             errorMessage={formFields.name.errorMessage}
                             errorStyle={authPagesStyles.error}
@@ -230,6 +238,7 @@ const SignupScreen = () => {
                                 marginRight: 10,
                             }}
                             onChangeText={validateEmailField}
+                            selectionColor={generalStyles.defaultColor.color}
                             textContentType="emailAddress"
                             errorMessage={formFields.email.errorMessage}
                             errorStyle={authPagesStyles.error}
@@ -249,6 +258,7 @@ const SignupScreen = () => {
                             leftIconContainerStyle={{ marginRight: 15 }}
                             onChangeText={validatePasswordField}
                             secureTextEntry={true}
+                            selectionColor={generalStyles.defaultColor.color}
                             textContentType="password"
                             errorMessage={formFields.password.errorMessage}
                             errorStyle={authPagesStyles.error}
@@ -267,7 +277,7 @@ const SignupScreen = () => {
                             inputStyle={authPagesStyles.formInput}
                             leftIconContainerStyle={{ marginRight: 15 }}
                             onChangeText={validateConfirmPasswordField}
-                            selectionColor="red"
+                            selectionColor={generalStyles.defaultColor.color}
                             textContentType="password"
                             secureTextEntry={true}
                             errorMessage={formFields.confirmPassword.errorMessage}
@@ -292,11 +302,12 @@ const SignupScreen = () => {
                             color: generalStyles.whiteColor.color
                         }}
                     />
-                    <Text fontLoaded={fontLoaded}
+                    <LinkText fontLoaded={fontLoaded}
                         customStyles={authPagesStyles.prompt}
+                        onPress={handleLoginClick}
                     >
-                        already have an account? signin
-                    </Text>
+                        already have an account? Log in
+                    </LinkText>
                 </View>
             );
         }
@@ -305,9 +316,11 @@ const SignupScreen = () => {
     }
 
     return (
-        <View style={authPagesStyles.container}>
-            {renderForm()}
-        </View>
+        <Layout>
+            <View style={authPagesStyles.container}>
+                {renderForm()}
+            </View>
+        </Layout>
     );
 }
 

@@ -2,6 +2,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import HomeScreen from '../views/HomeScreen';
 import SignupScreen from '../views/Auth/SignupScreen';
+import LoginScreen from '../views/Auth/LoginScreen';
 
 const Routes = {
     Home: {
@@ -9,6 +10,9 @@ const Routes = {
     },
     Signup: {
         screen: SignupScreen
+    },
+    Login: {
+        screen: LoginScreen
     }
 };
 

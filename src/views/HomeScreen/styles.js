@@ -6,9 +6,9 @@ const homePageStyles = StyleSheet.create({
         flex: 1,
 		justifyContent: 'flex-start',
         alignItems: 'center',
-        fontFamily: 'vince',
-        // borderColor: 'red',
-        // borderWidth: 1,
+        // fontFamily: 'vince',
+        borderColor: 'red',
+        borderWidth: 1,
         backgroundColor: 'transparent'
     },
     backgroundImage: {

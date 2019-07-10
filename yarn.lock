@@ -3812,6 +3812,13 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
+linkify-it@^1.2.0:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-1.2.4.tgz#0773526c317c8fd13bd534ee1d180ff88abf881a"
+  integrity sha1-B3NSbDF8j9E71TTuHRgP+Iq/iBo=
+  dependencies:
+    uc.micro "^1.0.1"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -3984,6 +3991,11 @@ md5-file@^3.2.3:
   integrity sha512-3Tkp1piAHaworfcCgH0jKbTvj1jWWFgbvh2cXaNCgHwyTCBxxvD1Y04rmfpvdPm1P4oXMOpm6+2H7sr7v9v8Fw==
   dependencies:
     buffer-alloc "^1.1.0"
+
+mdurl@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
+  integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
 
 mem@^1.1.0:
   version "1.1.0"
@@ -5295,6 +5307,14 @@ react-native-gesture-handler@1.2.1:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-hyperlink@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-hyperlink/-/react-native-hyperlink-0.0.14.tgz#138bbfe5b410667d1e37f04a2b4713163ab0ed81"
+  integrity sha1-E4u/5bQQZn0eN/BKK0cTFjqw7YE=
+  dependencies:
+    linkify-it "^1.2.0"
+    mdurl "^1.0.0"
+
 react-native-maps@0.24.2:
   version "0.24.2"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.24.2.tgz#19974f967cb0c2e24dab74ca879118e0932571b2"
@@ -6458,6 +6478,11 @@ ua-parser-js@^0.7.18, ua-parser-js@^0.7.19:
   version "0.7.20"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.20.tgz#7527178b82f6a62a0f243d1f94fd30e3e3c21098"
   integrity sha512-8OaIKfzL5cpx8eCMAhhvTlft8GYF8b2eQr6JkCyVdrgjcytyOmPCXrqXFcUnhonRpLlh5yxEZVohm6mzaowUOw==
+
+uc.micro@^1.0.1:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+  integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
 uglify-es@^3.1.9:
   version "3.3.9"
