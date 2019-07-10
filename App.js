@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Font } from 'expo';
-
-import Routes from './src/routes';
+import ConnectedApp from './src'; 
 
 export default class App extends Component {
 	// state = {
@@ -20,6 +18,6 @@ export default class App extends Component {
 		// const { fontLoaded } = this.state;
 		// const allProps = { ...this.props, fontLoaded };
 
-		return <Routes />;
+		return ( <ConnectedApp /> );
 	}
 }

@@ -1,7 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-
 import PropTypes from 'prop-types';
 
 import buttonStyles from './styles';

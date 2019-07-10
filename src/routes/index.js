@@ -17,7 +17,7 @@ const Routes = {
 };
 
 const AppNavigator = createDrawerNavigator(Routes, { 
-    initialRouteName: "Signup",
+    initialRouteName: loginScreenName,
     defaultNavigationOptions: {
         header: null
     },

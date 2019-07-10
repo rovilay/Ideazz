@@ -1,20 +1,21 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { connect } from 'react-redux';
+import { View } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
-import { fontLoader, handleNavigation, getAuthPageAttributes } from "../../helpers/utils";
+import { handleNavigation, getAuthPageAttributes } from "../../helpers/utils";
 import Text from "../../components/CustomText";
 import Layout from '../../components/Layout';
 import authPagesStyles from "./styles";
 import generalStyles from "../../components/generalStyles";
-import { emailRegx, nameRegx, signupScreenName } from "../../helpers/defaults";
+import { emailRegx, nameRegx, signupScreenName, loginScreenName } from "../../helpers/defaults";
 import LinkText from '../../components/LinkText';
 
 const AuthScreen = (props) => {
-    const { routeName } = props.navigation.state;
-    // props.navigation.openDrawer();
-    const [fontLoaded, setFontLoaded] = useState(false);
+    const { utils: { fontLoaded }, navigation} = props;
+    const { routeName } = navigation.state;
     const [formFields, setFormFields] = useState({
         name: {
             valid: '',
@@ -37,16 +38,6 @@ const AuthScreen = (props) => {
             errorMessage: ''
         }
     });
-
-    useEffect(() => {
-        const loadFonts = async () => {
-            await fontLoader();
-
-            setFontLoaded(true);
-        }
-
-        loadFonts();
-    }, []);
 
     const validateNameField = (value) => {
         const text = value.trimLeft();
@@ -186,7 +177,7 @@ const AuthScreen = (props) => {
     };
 
     const {
-        pageTitle, otherAuth, promptMsg 
+        pageTitle, otherAuth, promptMsg, currentAuth 
     } = getAuthPageAttributes(routeName);
     
     const handleLoginClick = () => {
@@ -202,152 +193,160 @@ const AuthScreen = (props) => {
         return disable;
     }
 
-    const renderForm = () => {
-        if (fontLoaded) {
-            return (
-                <View style={authPagesStyles.formContainer}>
-                    <Text fontLoaded={fontLoaded} 
-                        customStyles={authPagesStyles.title }
-                    >
-                        {pageTitle}
-                    </Text>
-                    <View style={authPagesStyles.form}>
-                        <Fragment>
-                            {routeName === 'Signup' &&
-                                <Input
-                                    placeholder='Full Name'
-                                    leftIcon={
-                                        <Icon
-                                            name='user'
-                                            size={24}
-                                            color={generalStyles.defaultColor.color}
-                                        />
-                                    }
-                                    inputContainerStyle={authPagesStyles.formInputContainer}
-                                    inputStyle={authPagesStyles.formInput}
-                                    leftIconContainerStyle={{ marginRight: 10 }}
-                                    onChangeText={validateNameField}
-                                    selectionColor={generalStyles.defaultColor.color}
-                                    textContentType="name"
-                                    errorMessage={formFields.name.errorMessage}
-                                    errorStyle={authPagesStyles.error}
-                                    value={formFields.name.value}
-                                />
-                            }
-                        </Fragment>
-                        <Input
-                            placeholder='Email'
-                            leftIcon={
-                                <Icon
-                                    name='envelope'
-                                    size={24}
-                                    color={generalStyles.defaultColor.color}
-                                />
-                            }
-                            inputContainerStyle={{
-                                borderColor: generalStyles.defaultColor.color,
-                                borderWidth: 1,
-                                width: '100%',
-                                borderRadius: 4,
-                                borderStyle: 'solid',
-                                paddingTop: 14,
-                                paddingRight: 5,
-                                paddingBottom: 14,
-                                paddingLeft: 5,
-                                marginTop: 10
-                            }}
-                            inputStyle={{
-                                fontFamily: 'vince',
-                                fontSize: 24
-                            }}
-                            leftIconContainerStyle={{
-                                marginRight: 10,
-                            }}
-                            onChangeText={validateEmailField}
-                            selectionColor={generalStyles.defaultColor.color}
-                            textContentType="emailAddress"
-                            errorMessage={formFields.email.errorMessage}
-                            errorStyle={authPagesStyles.error}
-                            value={formFields.email.value}
-                        />
-                        <Input
-                            placeholder='Password'
-                            leftIcon={
-                                <Icon
-                                    name='lock'
-                                    size={30}
-                                    color={generalStyles.defaultColor.color}
-                                />
-                            }
-                            inputContainerStyle={authPagesStyles.formInputContainer}
-                            inputStyle={authPagesStyles.formInput}
-                            leftIconContainerStyle={{ marginRight: 15 }}
-                            onChangeText={validatePasswordField}
-                            secureTextEntry={true}
-                            selectionColor={generalStyles.defaultColor.color}
-                            textContentType="password"
-                            errorMessage={formFields.password.errorMessage}
-                            errorStyle={authPagesStyles.error}
-                            value={formFields.password.value}
-                        />
-                        <Fragment>
-                            {routeName === 'Signup' &&
-                                <Input
-                                    placeholder='Confirm Password'
-                                    leftIcon={
-                                        <Icon
-                                            name='lock'
-                                            size={30}
-                                            color={generalStyles.defaultColor.color}
-                                        />
-                                    }
-                                    inputContainerStyle={authPagesStyles.formInputContainer}
-                                    inputStyle={authPagesStyles.formInput}
-                                    leftIconContainerStyle={{ marginRight: 15 }}
-                                    onChangeText={validateConfirmPasswordField}
-                                    selectionColor={generalStyles.defaultColor.color}
-                                    textContentType="password"
-                                    secureTextEntry={true}
-                                    errorMessage={formFields.confirmPassword.errorMessage}
-                                    errorStyle={authPagesStyles.error}
-                                    value={formFields.confirmPassword.value}
-                                />
-                            }
-                        </Fragment>
-                    </View>
-                    <Button
-                        title="submit"
-                        containerStyle={authPagesStyles.formButtonContainer}
-                        buttonStyle={authPagesStyles.formButton}
-                        titleStyle={authPagesStyles.formButtonText}
-                        disabled={disableSubmit()}
-                        disabledStyle={{
-                            backgroundColor: generalStyles.disabledColor.color
-                        }}
-                        disabledTitleStyle={{
-                            color: generalStyles.whiteColor.color
-                        }}
-                    />
-                    <LinkText fontLoaded={fontLoaded}
-                        customStyles={authPagesStyles.prompt}
-                        onPress={handleLoginClick}
-                    >
-                        {promptMsg}
-                    </LinkText>
-                </View>
-            );
-        }
+    const pagePostion = currentAuth === signupScreenName ? 'flex-start' : 'center';
 
-        return <ActivityIndicator />
+    const renderForm = () => {
+        return (
+            <View style={authPagesStyles.formContainer}>
+                <Text fontLoaded={fontLoaded} 
+                    customStyles={authPagesStyles.title }
+                >
+                    {pageTitle}
+                </Text>
+                <View style={authPagesStyles.form}>
+                    <Fragment>
+                        {routeName === 'Signup' &&
+                            <Input
+                                placeholder='Full Name'
+                                leftIcon={
+                                    <Icon
+                                        name='user'
+                                        size={24}
+                                        color={generalStyles.defaultColor.color}
+                                    />
+                                }
+                                inputContainerStyle={authPagesStyles.formInputContainer}
+                                inputStyle={authPagesStyles.formInput}
+                                leftIconContainerStyle={{ marginRight: 10 }}
+                                onChangeText={validateNameField}
+                                selectionColor={generalStyles.defaultColor.color}
+                                textContentType="name"
+                                errorMessage={formFields.name.errorMessage}
+                                errorStyle={authPagesStyles.error}
+                                value={formFields.name.value}
+                            />
+                        }
+                    </Fragment>
+                    <Input
+                        placeholder='Email'
+                        leftIcon={
+                            <Icon
+                                name='envelope'
+                                size={24}
+                                color={generalStyles.defaultColor.color}
+                            />
+                        }
+                        inputContainerStyle={{
+                            borderColor: generalStyles.defaultColor.color,
+                            borderWidth: 1,
+                            width: '100%',
+                            borderRadius: 4,
+                            borderStyle: 'solid',
+                            paddingTop: 14,
+                            paddingRight: 5,
+                            paddingBottom: 14,
+                            paddingLeft: 5,
+                            marginTop: 10
+                        }}
+                        inputStyle={{
+                            fontFamily: 'vince',
+                            fontSize: 24
+                        }}
+                        leftIconContainerStyle={{
+                            marginRight: 10,
+                        }}
+                        onChangeText={validateEmailField}
+                        selectionColor={generalStyles.defaultColor.color}
+                        textContentType="emailAddress"
+                        errorMessage={formFields.email.errorMessage}
+                        errorStyle={authPagesStyles.error}
+                        value={formFields.email.value}
+                    />
+                    <Input
+                        placeholder='Password'
+                        leftIcon={
+                            <Icon
+                                name='lock'
+                                size={30}
+                                color={generalStyles.defaultColor.color}
+                            />
+                        }
+                        inputContainerStyle={authPagesStyles.formInputContainer}
+                        inputStyle={authPagesStyles.formInput}
+                        leftIconContainerStyle={{ marginRight: 15 }}
+                        onChangeText={validatePasswordField}
+                        secureTextEntry={true}
+                        selectionColor={generalStyles.defaultColor.color}
+                        textContentType="password"
+                        errorMessage={formFields.password.errorMessage}
+                        errorStyle={authPagesStyles.error}
+                        value={formFields.password.value}
+                    />
+                    <Fragment>
+                        {routeName === 'Signup' &&
+                            <Input
+                                placeholder='Confirm Password'
+                                leftIcon={
+                                    <Icon
+                                        name='lock'
+                                        size={30}
+                                        color={generalStyles.defaultColor.color}
+                                    />
+                                }
+                                inputContainerStyle={authPagesStyles.formInputContainer}
+                                inputStyle={authPagesStyles.formInput}
+                                leftIconContainerStyle={{ marginRight: 15 }}
+                                onChangeText={validateConfirmPasswordField}
+                                selectionColor={generalStyles.defaultColor.color}
+                                textContentType="password"
+                                secureTextEntry={true}
+                                errorMessage={formFields.confirmPassword.errorMessage}
+                                errorStyle={authPagesStyles.error}
+                                value={formFields.confirmPassword.value}
+                            />
+                        }
+                    </Fragment>
+                </View>
+                <Button
+                    title="submit"
+                    containerStyle={authPagesStyles.formButtonContainer}
+                    buttonStyle={authPagesStyles.formButton}
+                    titleStyle={authPagesStyles.formButtonText}
+                    disabled={disableSubmit()}
+                    disabledStyle={{
+                        backgroundColor: generalStyles.disabledColor.color
+                    }}
+                    disabledTitleStyle={{
+                        color: generalStyles.whiteColor.color
+                    }}
+                />
+                <LinkText fontLoaded={fontLoaded}
+                    customStyles={authPagesStyles.prompt}
+                    onPress={handleLoginClick}
+                >
+                    {promptMsg}
+                </LinkText>
+            </View>
+        );
     }
 
     return (
         <Layout>
-            <View style={authPagesStyles.container}>
+            <View style={{
+                ...authPagesStyles.container,
+                justifyContent: pagePostion
+            }}>
                 {renderForm()}
             </View>
         </Layout>
     );
 }
 
-export default AuthScreen;
+AuthScreen.propTypes = {
+    navigation: PropTypes.object.isRequired,
+    utils: PropTypes.object.isRequired
+};
+
+export const mapStateToProps = ({ utils }) => ({ utils });
+
+export default connect(mapStateToProps, {})(AuthScreen);

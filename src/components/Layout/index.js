@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { Header } from "react-native-elements";
-import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 
 import { fontLoader } from "../../helpers/utils"; 
 import Logo from '../Logo/index';
 import layoutStyle from "./styles";
 import Hamburger from "../Hamburger";
+import {
+    loadFonts,
+    loadFontsFailure,
+    loadFontsSuccess
+} from '../../redux/actionCreators/utilsActions';
 
 const Layout = (props) => {
-    const { children, navigation } = props;
-    const [fontLoaded, setFontLoaded] = useState(false);
-
+    const { children, utils: { fontLoaded } } = props;
     useEffect(() => {
         const loadFonts = async () => {
-            await fontLoader();
+            try {
+                props.loadFonts(false);
+                await fontLoader();
+                props.loadFontsSuccess(true);
+            } catch (error) {
+                props.loadFontsFailure(false);
+            }
 
-            setFontLoaded(true);
         }
 
         loadFonts();
@@ -32,7 +40,6 @@ const Layout = (props) => {
                             fontLoaded={fontLoaded} 
                         />}
                         rightComponent={<Hamburger fontLoaded={fontLoaded} />}
-                        // rightComponent={{ icon: 'menu', color: '#fff' }}
                         statusBarProps={{ barStyle: 'light-content' }}
                         containerStyle={layoutStyle.header}
                     />
@@ -46,4 +53,12 @@ const Layout = (props) => {
     );
 }
 
-export default Layout;
+export const mapStateToProps = ({ utils }) => ({ utils });
+
+const actionCreators = {
+    loadFonts,
+    loadFontsSuccess,
+    loadFontsFailure
+};
+
+export default connect(mapStateToProps, actionCreators)(Layout);
