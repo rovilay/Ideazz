@@ -6,6 +6,7 @@ import { withNavigation } from 'react-navigation';
 import { fontLoader } from "../../helpers/utils"; 
 import Logo from '../Logo/index';
 import layoutStyle from "./styles";
+import Hamburger from "../Hamburger";
 
 const Layout = (props) => {
     const { children, navigation } = props;
@@ -30,7 +31,8 @@ const Layout = (props) => {
                         centerComponent={<Logo 
                             fontLoaded={fontLoaded} 
                         />}
-                        rightComponent={{ icon: 'menu', color: '#fff' }}
+                        rightComponent={<Hamburger fontLoaded={fontLoaded} />}
+                        // rightComponent={{ icon: 'menu', color: '#fff' }}
                         statusBarProps={{ barStyle: 'light-content' }}
                         containerStyle={layoutStyle.header}
                     />

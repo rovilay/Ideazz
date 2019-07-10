@@ -1,4 +1,4 @@
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createDrawerNavigator,createAppContainer } from "react-navigation";
 
 import HomeScreen from '../views/HomeScreen';
 import AuthScreen from '../views/Auth';
@@ -16,11 +16,12 @@ const Routes = {
     }
 };
 
-const AppNavigator = createStackNavigator(Routes, { 
+const AppNavigator = createDrawerNavigator(Routes, { 
     initialRouteName: "Signup",
     defaultNavigationOptions: {
         header: null
-    }
+    },
+    drawerPosition: 'right'
 });
 
 const AppContainer = createAppContainer(AppNavigator);

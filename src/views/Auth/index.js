@@ -13,6 +13,7 @@ import LinkText from '../../components/LinkText';
 
 const AuthScreen = (props) => {
     const { routeName } = props.navigation.state;
+    // props.navigation.openDrawer();
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formFields, setFormFields] = useState({
         name: {
