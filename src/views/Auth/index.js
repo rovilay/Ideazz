@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 
-import { fontLoader, handleNavigation } from "../../helpers/utils";
+import { fontLoader, handleNavigation, getAuthPageAttributes } from "../../helpers/utils";
 import Text from "../../components/CustomText";
 import Layout from '../../components/Layout';
 import authPagesStyles from "./styles";
 import generalStyles from "../../components/generalStyles";
-import { emailRegx, nameRegx } from "../../helpers/defaults";
+import { emailRegx, nameRegx, signupScreenName } from "../../helpers/defaults";
 import LinkText from '../../components/LinkText';
 
-const SignupScreen = (props) => {
+const AuthScreen = (props) => {
+    const { routeName } = props.navigation.state;
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formFields, setFormFields] = useState({
         name: {
@@ -101,39 +102,46 @@ const SignupScreen = (props) => {
             value: text
         };
 
-        const confirmPasswordField = {
-            ...formFields.confirmPassword
-        };
-
-        if (!text) {
-            passwordField.valid = false;
-            passwordField.errorMessage = 'password is required';
-            confirmPasswordField.valid = false;
-            confirmPasswordField.errorMessage = 'password is required';
-
-        } else if (text.length < 7 || 
-            text !== formFields.confirmPassword.value
-        ) {
-            passwordField.valid = false;
-            passwordField.errorMessage = "password is invalid";
-            confirmPasswordField.valid = false;
-            confirmPasswordField.errorMessage = "password is invalid";
-
+        if (routeName === signupScreenName) {
+            const confirmPasswordField = {
+                ...formFields.confirmPassword
+            };
+    
+            if (!text) {
+                passwordField.valid = false;
+                passwordField.errorMessage = 'password is required';
+                confirmPasswordField.valid = false;
+                confirmPasswordField.errorMessage = 'password is required';
+    
+            } else if (text.length < 7 || 
+                text !== formFields.confirmPassword.value
+            ) {
+                passwordField.valid = false;
+                passwordField.errorMessage = "password is invalid";
+                confirmPasswordField.valid = false;
+                confirmPasswordField.errorMessage = "password is invalid";
+    
+            } else {
+                passwordField.valid = true;
+                passwordField.errorMessage = "";
+                confirmPasswordField.valid = true;
+                confirmPasswordField.errorMessage = "";
+            }
+    
+            setFormFields({
+                ...formFields,
+                password: passwordField,
+                confirmPassword: { 
+                    ...formFields.confirmPassword, 
+                    ...confirmPasswordField 
+                },
+            });
         } else {
-            passwordField.valid = true;
-            passwordField.errorMessage = "";
-            confirmPasswordField.valid = true;
-            confirmPasswordField.errorMessage = "";
+            setFormFields({
+                ...formFields,
+                password: passwordField
+            });
         }
-
-        setFormFields({
-            ...formFields,
-            password: passwordField,
-            confirmPassword: { 
-                ...formFields.confirmPassword, 
-                ...confirmPasswordField 
-            },
-        });
     };
 
     const validateConfirmPasswordField = (value) => {
@@ -176,10 +184,22 @@ const SignupScreen = (props) => {
         });
     };
 
+    const {
+        pageTitle, otherAuth, promptMsg 
+    } = getAuthPageAttributes(routeName);
+    
     const handleLoginClick = () => {
-        handleNavigation(props.navigation, 'Login');
+        handleNavigation(props.navigation, otherAuth);
     };
 
+    const disableSubmit = () => {
+        let disable = !formFields.password.valid || !formFields.email.valid;
+        if (!disable && routeName === signupScreenName) {
+            disable = !formFields.confirmPassword.valid || !formFields.name.valid;
+        }
+
+        return disable;
+    }
 
     const renderForm = () => {
         if (fontLoaded) {
@@ -187,28 +207,33 @@ const SignupScreen = (props) => {
                 <View style={authPagesStyles.formContainer}>
                     <Text fontLoaded={fontLoaded} 
                         customStyles={authPagesStyles.title }
-                    >Sign up</Text>
-                    <View style={authPagesStyles.form}
                     >
-                        <Input
-                            placeholder='Full Name'
-                            leftIcon={
-                                <Icon
-                                    name='user'
-                                    size={24}
-                                    color={generalStyles.defaultColor.color}
+                        {pageTitle}
+                    </Text>
+                    <View style={authPagesStyles.form}>
+                        <Fragment>
+                            {routeName === 'Signup' &&
+                                <Input
+                                    placeholder='Full Name'
+                                    leftIcon={
+                                        <Icon
+                                            name='user'
+                                            size={24}
+                                            color={generalStyles.defaultColor.color}
+                                        />
+                                    }
+                                    inputContainerStyle={authPagesStyles.formInputContainer}
+                                    inputStyle={authPagesStyles.formInput}
+                                    leftIconContainerStyle={{ marginRight: 10 }}
+                                    onChangeText={validateNameField}
+                                    selectionColor={generalStyles.defaultColor.color}
+                                    textContentType="name"
+                                    errorMessage={formFields.name.errorMessage}
+                                    errorStyle={authPagesStyles.error}
+                                    value={formFields.name.value}
                                 />
                             }
-                            inputContainerStyle={authPagesStyles.formInputContainer}
-                            inputStyle={authPagesStyles.formInput}
-                            leftIconContainerStyle={{ marginRight: 10 }}
-                            onChangeText={validateNameField}
-                            selectionColor={generalStyles.defaultColor.color}
-                            textContentType="name"
-                            errorMessage={formFields.name.errorMessage}
-                            errorStyle={authPagesStyles.error}
-                            value={formFields.name.value}
-                        />
+                        </Fragment>
                         <Input
                             placeholder='Email'
                             leftIcon={
@@ -264,37 +289,37 @@ const SignupScreen = (props) => {
                             errorStyle={authPagesStyles.error}
                             value={formFields.password.value}
                         />
-                        <Input
-                            placeholder='Confirm Password'
-                            leftIcon={
-                                <Icon
-                                    name='lock'
-                                    size={30}
-                                    color={generalStyles.defaultColor.color}
+                        <Fragment>
+                            {routeName === 'Signup' &&
+                                <Input
+                                    placeholder='Confirm Password'
+                                    leftIcon={
+                                        <Icon
+                                            name='lock'
+                                            size={30}
+                                            color={generalStyles.defaultColor.color}
+                                        />
+                                    }
+                                    inputContainerStyle={authPagesStyles.formInputContainer}
+                                    inputStyle={authPagesStyles.formInput}
+                                    leftIconContainerStyle={{ marginRight: 15 }}
+                                    onChangeText={validateConfirmPasswordField}
+                                    selectionColor={generalStyles.defaultColor.color}
+                                    textContentType="password"
+                                    secureTextEntry={true}
+                                    errorMessage={formFields.confirmPassword.errorMessage}
+                                    errorStyle={authPagesStyles.error}
+                                    value={formFields.confirmPassword.value}
                                 />
                             }
-                            inputContainerStyle={authPagesStyles.formInputContainer}
-                            inputStyle={authPagesStyles.formInput}
-                            leftIconContainerStyle={{ marginRight: 15 }}
-                            onChangeText={validateConfirmPasswordField}
-                            selectionColor={generalStyles.defaultColor.color}
-                            textContentType="password"
-                            secureTextEntry={true}
-                            errorMessage={formFields.confirmPassword.errorMessage}
-                            errorStyle={authPagesStyles.error}
-                            value={formFields.confirmPassword.value}
-                        />
+                        </Fragment>
                     </View>
                     <Button
                         title="submit"
                         containerStyle={authPagesStyles.formButtonContainer}
                         buttonStyle={authPagesStyles.formButton}
                         titleStyle={authPagesStyles.formButtonText}
-                        disabled={!formFields.name.valid ||
-                            !formFields.email.valid ||
-                            !formFields.password.valid || 
-                            !formFields.confirmPassword.valid
-                        }
+                        disabled={disableSubmit()}
                         disabledStyle={{
                             backgroundColor: generalStyles.disabledColor.color
                         }}
@@ -306,7 +331,7 @@ const SignupScreen = (props) => {
                         customStyles={authPagesStyles.prompt}
                         onPress={handleLoginClick}
                     >
-                        already have an account? Log in
+                        {promptMsg}
                     </LinkText>
                 </View>
             );
@@ -324,4 +349,4 @@ const SignupScreen = (props) => {
     );
 }
 
-export default SignupScreen;
+export default AuthScreen;

@@ -1,18 +1,18 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import HomeScreen from '../views/HomeScreen';
-import SignupScreen from '../views/Auth/SignupScreen';
-import LoginScreen from '../views/Auth/LoginScreen';
+import AuthScreen from '../views/Auth';
+import { loginScreenName, signupScreenName, homeScreenName } from "../helpers/defaults";
 
 const Routes = {
-    Home: {
+    [homeScreenName]: {
         screen: HomeScreen
     },
-    Signup: {
-        screen: SignupScreen
+    [signupScreenName]: {
+        screen: AuthScreen
     },
-    Login: {
-        screen: LoginScreen
+    [loginScreenName]: {
+        screen: AuthScreen
     }
 };
 
