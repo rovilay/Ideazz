@@ -13,7 +13,7 @@ const Routes = {
 };
 
 const AppNavigator = createStackNavigator(Routes, { 
-    initialRouteName: "Home",
+    initialRouteName: "Signup",
     defaultNavigationOptions: {
         header: null
     }

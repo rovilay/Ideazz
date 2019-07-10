@@ -13,7 +13,6 @@ const HomeScreen = (props) => {
 
     const handleLoginButton = () => {
         const { navigate } = props.navigation;
-
         return navigate('Signup');
     }
 
@@ -38,10 +37,7 @@ const HomeScreen = (props) => {
                         centerComponent={{ text: 'IDEAS', style: homePageStyles.title }}
                         rightComponent={{ icon: 'menu', color: '#fff' }}
                         statusBarProps={{ barStyle: 'light-content' }}
-                        containerStyle={{
-                            backgroundColor: 'transparent',
-                            ...homePageStyles.header
-                        }}
+                        containerStyle={{...homePageStyles.header}}
                     />
                     <View style={homePageStyles.content}>
                         <View style={{ 

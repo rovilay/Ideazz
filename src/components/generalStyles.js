@@ -23,6 +23,9 @@ const generalStyles = StyleSheet.create({
     blackColor: {
         color: '#000000',
     },
+    disabledColor: {
+        color: '#c2c2c2',
+    },
     absoluteFillObject: {
         position: 'absolute',
         top: 0,

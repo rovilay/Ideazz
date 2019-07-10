@@ -18,7 +18,8 @@ const homePageStyles = StyleSheet.create({
         resizeMode: 'cover'
     },
     header: {
-        flexBasis: '15%'
+        flexBasis: '15%',
+        borderBottomColor: 'transparent'
     },
     content: {
         flexBasis: '85%',
