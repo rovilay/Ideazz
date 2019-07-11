@@ -41,7 +41,8 @@ const authPagesStyles = StyleSheet.create({
     },
     formInput: {
         fontFamily: 'vince',
-        fontSize: 24
+        fontSize: 24,
+        textTransform: 'lowercase'
     },
     formButtonContainer: {
         paddingLeft: 15,

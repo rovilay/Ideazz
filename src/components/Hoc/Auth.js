@@ -2,11 +2,12 @@ import React, { Fragment, Component } from "react";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withNavigation } from 'react-navigation';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, AsyncStorage } from 'react-native';
 
 import Layout from "../Layout";
 import { authenticateScreen, userDetails, fontLoader } from "../../helpers/utils";
-import { postUserDataSuccess, postUserDataFailure } from '../../redux/actionCreators/userActions';
+import { signUpUserSuccess, signUpUserFailure } from '../../redux/actionCreators/userActions';
+import { jwtKey } from '../../helpers/defaults';
 import {
     loadFonts,
     loadFontsFailure,
@@ -29,10 +30,11 @@ export default function(Screen) {
 
         async componentDidMount() {
             const userData = await userDetails();
+            // await AsyncStorage.removeItem(jwtKey);
             if (userData.isAuthenticated) {
-                this.props.postUserDataSuccess(userData);
+                this.props.signUpUserSuccess(userData);
             } else {
-                this.props.postUserDataFailure("invalid token");
+                this.props.signUpUserFailure("invalid token");
             }
             // await this.loadFonts();
         }
@@ -66,16 +68,16 @@ export default function(Screen) {
         loadFonts: PropTypes.func.isRequired,
         loadFontsSuccess: PropTypes.func.isRequired,
         loadFontsFailure: PropTypes.func.isRequired,
-        postUserDataSuccess: PropTypes.func.isRequired,
-        postUserDataFailure: PropTypes.func.isRequired,
+        signUpUserSuccess: PropTypes.func.isRequired,
+        signUpUserFailure: PropTypes.func.isRequired,
     };
 
     const actionCreators = {
         loadFonts,
         loadFontsSuccess,
         loadFontsFailure,
-        postUserDataSuccess,
-        postUserDataFailure
+        signUpUserSuccess,
+        signUpUserFailure
     };
 
     return connect('', actionCreators)(AuthenticateScreen);

@@ -1,38 +1,38 @@
 import * as types from '../constants/actionTypes';
   
-export const postUserData = userData => ({
-    type: types.POST_USER_DATA,
+export const signUpUser = userData => ({
+    type: types.SIGN_UP_USER,
     userData
 });
   
-export const postUserDataSuccess = userData => ({
-    type: types.POST_USER_DATA_SUCCESS,
+export const signUpUserSuccess = userData => ({
+    type: types.SIGN_UP_USER_SUCCESS,
     userData
 });
   
-export const postUserDataFailure = error => ({
-    type: types.POST_USER_DATA_FAILURE,
+export const signUpUserFailure = error => ({
+    type: types.SIGN_UP_USER_FAILURE,
+    error
+});
+  
+export const logInUser = userData => ({
+    type: types.LOG_IN_USER,
+    userData
+});
+  
+export const logInUserSuccess = userData => ({
+    type: types.LOG_IN_USER_SUCCESS,
+    userData
+});
+  
+  
+export const logInUserFailure = error => ({
+    type: types.LOG_IN_USER_FAILURE,
     error
 });
 
 export const logOutUser = () => ({
-    type: types.LOG_OUT_USER,
-});
-  
-export const getUserData = id => ({
-    type: types.GET_USER_DATA,
-    id
-});
-  
-export const getUserDataSuccess = response => ({
-    type: types.GET_USER_DATA_SUCCESS,
-    response
-});
-  
-  
-export const getUserDataFailure = error => ({
-    type: types.GET_USER_DATA_FAILURE,
-    error
+  type: types.LOG_OUT_USER,
 });
 
 export const setCurrentUser = () => {

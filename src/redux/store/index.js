@@ -9,8 +9,6 @@ import rootSaga from '../sagas';
 import { jwtKey } from '../../helpers/defaults';
 
 const sagaMiddleware = createSagaMiddleware();
-// onst tool = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || composec;
-// const composeEnhancers = tool;
 const middleware = composeWithDevTools(applyMiddleware(sagaMiddleware));
 const store = createStore(rootReducer, middleware);
 

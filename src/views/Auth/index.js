@@ -12,12 +12,12 @@ import authPagesStyles from "./styles";
 import generalStyles from "../../components/generalStyles";
 import { emailRegx, nameRegx, signupScreenName, loginScreenName } from "../../helpers/defaults";
 import LinkText from '../../components/LinkText';
-import { postUserData } from '../../redux/actionCreators/userActions';
+import { signUpUser, logInUser } from '../../redux/actionCreators/userActions';
 
 const AuthScreen = (props) => {
     const { 
         utils: { fontLoaded }, navigation, 
-        isLoading, postUserData
+        isLoading, signUpUser, logInUser
     } = props;
     
     const { routeName } = navigation.state;
@@ -96,7 +96,8 @@ const AuthScreen = (props) => {
         const text = value;
         const passwordField = {
             ...formFields.password,
-            value: text
+            value: text,
+            valid: !!text
         };
 
         if (routeName === signupScreenName) {
@@ -205,7 +206,14 @@ const AuthScreen = (props) => {
             password: formFields.password.value,
         }
 
-        postUserData(userData);
+        console.log('here -----');
+        if (currentAuth === signupScreenName) {
+            console.log('here2 -----');
+            return signUpUser(userData);
+        }
+        console.log('here3 -----');
+            
+        logInUser(userData);
     }
 
     const pagePostion = currentAuth === signupScreenName ? '10%' : '30%';
@@ -220,7 +228,7 @@ const AuthScreen = (props) => {
                 </Text>
                 <View style={authPagesStyles.form}>
                     <Fragment>
-                        {routeName === 'Signup' &&
+                        {routeName === signupScreenName &&
                             <Input
                                 placeholder='Full Name'
                                 leftIcon={
@@ -239,6 +247,7 @@ const AuthScreen = (props) => {
                                 errorMessage={formFields.name.errorMessage}
                                 errorStyle={authPagesStyles.error}
                                 value={formFields.name.value}
+                                autoCapitalize="none"
                             />
                         }
                     </Fragment>
@@ -276,6 +285,7 @@ const AuthScreen = (props) => {
                         errorMessage={formFields.email.errorMessage}
                         errorStyle={authPagesStyles.error}
                         value={formFields.email.value}
+                        autoCapitalize="none"
                     />
                     <Input
                         placeholder='Password'
@@ -296,6 +306,7 @@ const AuthScreen = (props) => {
                         errorMessage={formFields.password.errorMessage}
                         errorStyle={authPagesStyles.error}
                         value={formFields.password.value}
+                        autoCapitalize="none"
                     />
                     <Fragment>
                         {routeName === 'Signup' &&
@@ -318,6 +329,7 @@ const AuthScreen = (props) => {
                                 errorMessage={formFields.confirmPassword.errorMessage}
                                 errorStyle={authPagesStyles.error}
                                 value={formFields.confirmPassword.value}
+                                autoCapitalize="none"
                             />
                         }
                     </Fragment>
@@ -359,7 +371,8 @@ AuthScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
     utils: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    postUserData: PropTypes.func.isRequired
+    signUpUser: PropTypes.func.isRequired,
+    logInUser: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = ({ utils, auth }) => ({ 
@@ -367,7 +380,8 @@ export const mapStateToProps = ({ utils, auth }) => ({
     isLoading: auth.isLoading 
 });
 const mapDispatchToProps = {
-    postUserData
+    signUpUser,
+    logInUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

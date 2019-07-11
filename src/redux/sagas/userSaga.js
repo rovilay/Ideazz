@@ -1,66 +1,46 @@
 import { put, takeLatest, call  } from 'redux-saga/effects';
 
 import { userDetails, apiErrorHandler } from '../../helpers/utils';
-import { jwtKey } from '../../helpers/defaults';
+import { ideasScreenName } from '../../helpers/defaults';
+import * as NavigationService from '../../services/NavigationService';
 import UserAPI from '../../services/UserAPI';
-import { AsyncStorage } from 'react-native';
 import {
-    setCurrentUser,
-    setCurrentUserSuccess,
-    setCurrentUserFailure,
-    postUserData,
-    postUserDataSuccess,
-    postUserDataFailure,
+    signUpUser,
+    signUpUserSuccess,
+    signUpUserFailure,
+    logInUser,
+    logInUserSuccess,
+    logInUserFailure,
 } from '../actionCreators/userActions';
 
-// export function* userAuth() {
-//   yield takeLatest(setCurrentUser().type, setUser);
-// }
-
-// export function* setUser() {
-//   try {
-//     const response = yield call(userDetails);
-//     yield put(setCurrentUserSuccess(response));
-
-//   } catch (error) {
-//     yield put(setCurrentUserFailure(error));
-//   }
-// }
-
-export function* watchPostUserDataSagaAsync() {
-  yield takeLatest(postUserData().type, postUserDataSagaAsync);
+export function* watchSignUpUserSagaAsync() {
+  yield takeLatest(signUpUser().type, signUpUserSagaAsync);
 }
 
-export function* postUserDataSagaAsync(action) {
+export function* signUpUserSagaAsync(action) {
     try {
-        const response = yield call(UserAPI.postNewUser, action.userData);
+        const response = yield call(UserAPI.signUpUser, action.userData);
         const userData = yield userDetails(response.data.token);
-        console.log(userData), '****j';
-        yield put(postUserDataSuccess(userData));
-        // yield put(getUserDataSuccess(userData));
+        yield put(signUpUserSuccess(userData));
+        yield put(NavigationService.navigate(ideasScreenName));
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
-        yield put(postUserDataFailure(errorMessage));
+        yield put(signUpUserFailure(errorMessage));
     }
 }
 
-// export function* watchGetUserDataSagaAsync() {
-//     yield takeLatest(getUserData().type, fetchUserDataSaga);
-// }
+export function* watchLogInUserSagaAsync() {
+  yield takeLatest(logInUser().type, logInUserSagaAsync);
+}
 
-// export function* fetchUserDataSaga(action) {
-//     try {
-//         const response = yield call(UserAPI.getUserData, action.id);
-//         const dataFromStagingApi = yield call(UserAPI.getUserDataFromStagingApi,
-//             response.data.result.email,
-//         );
-//         const location = (dataFromStagingApi.data.values[0].location) ?
-//             dataFromStagingApi.data.values[0].location.name : process.env.REACT_APP_DEFAULT_LOCATION;
-//         response.data.result.location = location;
-//         yield put(getUserDataSuccess(response.data));
-//     } catch (error) {
-//         const errorMessage = apiErrorHandler(error);
-//         yield put(getUserDataFailure(errorMessage));
-//     }
-// }
-
+export function* logInUserSagaAsync(action) {
+    try {
+        const response = yield call(UserAPI.logInUser, action.userData);
+        const userData = yield userDetails(response.data.token);
+        yield put(logInUserSuccess(userData));
+        yield put(NavigationService.navigate(ideasScreenName));
+    } catch (error) {
+        const errorMessage = apiErrorHandler(error);
+        yield put(logInUserFailure(errorMessage));
+    }
+}

@@ -8,12 +8,12 @@ import PropTypes from 'prop-types';
 import { handleNavigation } from "../../helpers/utils";
 import settingsPageStyles from "./styles";
 import { jwtKey, homeScreenName } from "../../helpers/defaults";
-import { postUserData, logOutUser } from '../../redux/actionCreators/userActions';
+import { signUpUser, logOutUser } from '../../redux/actionCreators/userActions';
 
 const SettingsScreen = (props) => {
     const { 
         utils: { fontLoaded }, navigation, 
-        isLoading, postUserData, logOutUser
+        isLoading, signUpUser, logOutUser
     } = props;
     
     const { routeName } = navigation.state;
@@ -51,7 +51,7 @@ SettingsScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
     utils: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    postUserData: PropTypes.func.isRequired,
+    signUpUser: PropTypes.func.isRequired,
     logOutUser: PropTypes.func.isRequired,
 };
 
@@ -60,7 +60,7 @@ export const mapStateToProps = ({ utils, auth }) => ({
     isLoading: auth.isLoading 
 });
 const mapDispatchToProps = {
-    postUserData,
+    signUpUser,
     logOutUser
 };
 

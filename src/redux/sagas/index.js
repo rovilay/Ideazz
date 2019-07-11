@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { all } from 'redux-saga/effects';
 
-import { watchPostUserDataSagaAsync } from './userSaga';
+import { watchSignUpUserSagaAsync, watchLogInUserSagaAsync } from './userSaga';
 
 function* rootSaga() {
 	yield all([
-		watchPostUserDataSagaAsync()
+		watchSignUpUserSagaAsync(),
+		watchLogInUserSagaAsync()
 	]);
 }
 

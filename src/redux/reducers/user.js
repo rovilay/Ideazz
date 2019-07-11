@@ -1,10 +1,10 @@
 import {
-    POST_USER_DATA,
-    POST_USER_DATA_SUCCESS,
-    POST_USER_DATA_FAILURE,
-    GET_USER_DATA,
-    GET_USER_DATA_SUCCESS,
-    GET_USER_DATA_FAILURE,
+    SIGN_UP_USER,
+    SIGN_UP_USER_SUCCESS,
+    SIGN_UP_USER_FAILURE,
+    LOG_IN_USER,
+    LOG_IN_USER_SUCCESS,
+    LOG_IN_USER_FAILURE,
     LOG_OUT_USER,
 } from '../constants/actionTypes';
 
@@ -17,38 +17,44 @@ const initialState = {
 };
 const user = (state = initialState, action) => {
     switch (action.type) {
-        case GET_USER_DATA:
-            return {
-                ...state, isLoaded: false
-            };
-        case GET_USER_DATA_SUCCESS:
-            return {
-                ...state,
-                getUserData: action.response,
-                currentUser: action.response.result,
-                errors: [],
-                isLoaded: true
-            };
-        case GET_USER_DATA_FAILURE:
-            return {
-                ...state,
-                errors: action.error,
-                    isLoaded: false
-            };
-        case POST_USER_DATA:
+        case SIGN_UP_USER:
             return { ...state, isLoading: true };
-        case POST_USER_DATA_SUCCESS:
+        case SIGN_UP_USER_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 currentUser: action.userData,
+                error: false,
+                errors: []
             };
-        case POST_USER_DATA_FAILURE:
+        case SIGN_UP_USER_FAILURE:
             return {
                 ...state,
                 currentUser: {},
                 isLoading: false,
-                errors: action.error
+                errors: action.error,
+                error: true
+            };
+        case LOG_IN_USER:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case LOG_IN_USER_SUCCESS:
+            return {
+                ...state,
+                currentUser: action.userData,
+                errors: [],
+                error: false,
+                isLoading: false
+            };
+        case LOG_IN_USER_FAILURE:
+            return {
+                ...state,
+                currentUser: {},
+                isLoading: false,
+                errors: action.error,
+                error: true
             };
         case LOG_OUT_USER:
             return {
