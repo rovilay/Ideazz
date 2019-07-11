@@ -8,7 +8,7 @@ const CustomText = (props) => {
         fontLoaded, customStyles,
         children
     } = props;
-
+    
     const renderText = () => {
         if (fontLoaded) {
             return (

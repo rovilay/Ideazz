@@ -17,7 +17,8 @@ import { signUpUser, logInUser } from '../../redux/actionCreators/userActions';
 const AuthScreen = (props) => {
     const { 
         utils: { fontLoaded }, navigation, 
-        isLoading, signUpUser, logInUser
+        isLoading, signUpUser, logInUser,
+        authError
     } = props;
     
     const { routeName } = navigation.state;
@@ -191,7 +192,7 @@ const AuthScreen = (props) => {
     };
 
     const disableSubmit = () => {
-        let disable = !formFields.password.valid || !formFields.email.valid;
+        let disable = isLoading || !formFields.password.valid || !formFields.email.valid;
         if (!disable && routeName === signupScreenName) {
             disable = !formFields.confirmPassword.valid || !formFields.name.valid;
         }
@@ -206,12 +207,9 @@ const AuthScreen = (props) => {
             password: formFields.password.value,
         }
 
-        console.log('here -----');
         if (currentAuth === signupScreenName) {
-            console.log('here2 -----');
             return signUpUser(userData);
         }
-        console.log('here3 -----');
             
         logInUser(userData);
     }
@@ -227,6 +225,13 @@ const AuthScreen = (props) => {
                     {pageTitle}
                 </Text>
                 <View style={authPagesStyles.form}>
+                    {authError.state &&
+                        <Text fontLoaded={fontLoaded} 
+                            customStyles={{ ...authPagesStyles.error, paddingLeft: 10 }}
+                        >
+                            {authError.message}
+                        </Text>
+                    }
                     <Fragment>
                         {routeName === signupScreenName &&
                             <Input
@@ -248,6 +253,7 @@ const AuthScreen = (props) => {
                                 errorStyle={authPagesStyles.error}
                                 value={formFields.name.value}
                                 autoCapitalize="none"
+                                editable={!isLoading}
                             />
                         }
                     </Fragment>
@@ -285,6 +291,7 @@ const AuthScreen = (props) => {
                         errorMessage={formFields.email.errorMessage}
                         errorStyle={authPagesStyles.error}
                         value={formFields.email.value}
+                        editable={!isLoading}
                         autoCapitalize="none"
                     />
                     <Input
@@ -307,6 +314,7 @@ const AuthScreen = (props) => {
                         errorStyle={authPagesStyles.error}
                         value={formFields.password.value}
                         autoCapitalize="none"
+                        editable={!isLoading}
                     />
                     <Fragment>
                         {routeName === 'Signup' &&
@@ -330,6 +338,7 @@ const AuthScreen = (props) => {
                                 errorStyle={authPagesStyles.error}
                                 value={formFields.confirmPassword.value}
                                 autoCapitalize="none"
+                                editable={!isLoading}
                             />
                         }
                     </Fragment>
@@ -347,6 +356,8 @@ const AuthScreen = (props) => {
                         color: generalStyles.whiteColor.color
                     }}
                     onPress={handleFormSubmit}
+                    loading={isLoading}
+                    loadingStyle={authPagesStyles.formButton}
                 />
                 <LinkText fontLoaded={fontLoaded}
                     customStyles={authPagesStyles.prompt}
@@ -373,11 +384,13 @@ AuthScreen.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     signUpUser: PropTypes.func.isRequired,
     logInUser: PropTypes.func.isRequired,
+    authError: PropTypes.object.isRequired
 };
 
 export const mapStateToProps = ({ utils, auth }) => ({ 
     utils,
-    isLoading: auth.isLoading 
+    isLoading: auth.isLoading,
+    authError: auth.errors,
 });
 const mapDispatchToProps = {
     signUpUser,

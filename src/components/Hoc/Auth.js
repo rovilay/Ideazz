@@ -6,7 +6,7 @@ import { ActivityIndicator, AsyncStorage } from 'react-native';
 
 import Layout from "../Layout";
 import { authenticateScreen, userDetails, fontLoader } from "../../helpers/utils";
-import { signUpUserSuccess, signUpUserFailure } from '../../redux/actionCreators/userActions';
+import { logInUserSuccess, logInUserFailure } from '../../redux/actionCreators/userActions';
 import { jwtKey } from '../../helpers/defaults';
 import {
     loadFonts,
@@ -32,9 +32,9 @@ export default function(Screen) {
             const userData = await userDetails();
             // await AsyncStorage.removeItem(jwtKey);
             if (userData.isAuthenticated) {
-                this.props.signUpUserSuccess(userData);
+                this.props.logInUserSuccess(userData);
             } else {
-                this.props.signUpUserFailure("invalid token");
+                this.props.logInUserFailure("invalid token");
             }
             // await this.loadFonts();
         }
@@ -68,16 +68,16 @@ export default function(Screen) {
         loadFonts: PropTypes.func.isRequired,
         loadFontsSuccess: PropTypes.func.isRequired,
         loadFontsFailure: PropTypes.func.isRequired,
-        signUpUserSuccess: PropTypes.func.isRequired,
-        signUpUserFailure: PropTypes.func.isRequired,
+        logInUserSuccess: PropTypes.func.isRequired,
+        logInUserFailure: PropTypes.func.isRequired,
     };
 
     const actionCreators = {
         loadFonts,
         loadFontsSuccess,
         loadFontsFailure,
-        signUpUserSuccess,
-        signUpUserFailure
+        logInUserSuccess,
+        logInUserFailure
     };
 
     return connect('', actionCreators)(AuthenticateScreen);

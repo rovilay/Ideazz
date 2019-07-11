@@ -7,13 +7,17 @@ import {
     LOG_IN_USER_FAILURE,
     LOG_OUT_USER,
 } from '../constants/actionTypes';
+import { loginFailureMessage } from '../../helpers/defaults';
 
 const initialState = {
     currentUser: {},
-    errors: [],
+    errors: {
+        message: '',
+        errors: [],
+        state: false
+    },
     getCurrentUserRole: [],
     isLoading: false,
-    error: false
 };
 const user = (state = initialState, action) => {
     switch (action.type) {
@@ -24,16 +28,18 @@ const user = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 currentUser: action.userData,
-                error: false,
-                errors: []
+                errors: initialState.errors
             };
         case SIGN_UP_USER_FAILURE:
             return {
                 ...state,
                 currentUser: {},
                 isLoading: false,
-                errors: action.error,
-                error: true
+                errors: {
+                    message: action.error,
+                    errors: action.error,
+                    state: true,
+                }
             };
         case LOG_IN_USER:
             return {
@@ -44,8 +50,7 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 currentUser: action.userData,
-                errors: [],
-                error: false,
+                errors: initialState.errors,
                 isLoading: false
             };
         case LOG_IN_USER_FAILURE:
@@ -53,8 +58,11 @@ const user = (state = initialState, action) => {
                 ...state,
                 currentUser: {},
                 isLoading: false,
-                errors: action.error,
-                error: true
+                errors: {
+                    message: loginFailureMessage,
+                    errors: action.error,
+                    state: true,
+                }
             };
         case LOG_OUT_USER:
             return {
