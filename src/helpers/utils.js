@@ -2,7 +2,10 @@ import * as Font from 'expo-font';
 import { AsyncStorage } from 'react-native';
 import jwtDecode from 'jwt-decode';
 
-import { loginScreenName, signupScreenName, jwtKey } from './defaults';
+import { 
+    loginScreenName, signupScreenName, homeScreenName,
+    jwtKey, unProtectedScreens, ideasScreenName 
+} from './defaults';
 
 export const fontLoader = () => {
     return Font.loadAsync({
@@ -10,10 +13,20 @@ export const fontLoader = () => {
     });
 }
 
-export const handleNavigation = (navigationProp, pageName) => {
+export const handleNavigation = (navigationProp, screenName) => {
     const { navigate } = navigationProp;
-    return navigate(pageName);
+    return navigate(screenName);
 }
+
+export const isExpired = (expiredTimeInSec) => {
+    if (expiredTimeInSec) {
+      const now = new Date();
+      const nowInSec = Math.floor(now.getTime() * 0.001); // Convert date to sec
+      return nowInSec > expiredTimeInSec;
+    }
+  };
+  
+  export default isExpired;
 
 export const getAuthPageAttributes = (routeName) => {
     let pageTitle = "log in";
@@ -31,10 +44,15 @@ export const getAuthPageAttributes = (routeName) => {
     return { pageTitle, currentAuth, otherAuth, promptMsg };
 }
 
-export const userDetails = async ()  => {
-    const token = await AsyncStorage.getItem(jwtKey);
+export const userDetails = async (tokn)  => {
+    const token = tokn || await AsyncStorage.getItem(jwtKey);
     const userData = token ? jwtDecode(token) : null;
     const isAuthenticated = userData ? true : false;
+
+    if (tokn && isAuthenticated) {
+        await AsyncStorage.setItem(jwtKey, tokn);
+    }
+
     const data = {
         isAuthenticated,
         user: userData
@@ -43,7 +61,39 @@ export const userDetails = async ()  => {
     return data;
 };
 
-export default function apiErrorHandler(error) {
+export const authenticateScreen = async (navigationProp) => {
+    const { routeName } = navigationProp.state;
+    const token = await AsyncStorage.getItem(jwtKey);
+    const userData = token ? jwtDecode(token) : null;
+    const expiredUser = userData && isExpired(userData.exp);
+    if ((!userData  || expiredUser) && 
+        !unProtectedScreens.includes(routeName) &&
+        routeName !== homeScreenName
+    ) {
+        console.log('-----1------');
+        await AsyncStorage.removeItem(jwtKey);
+        return handleNavigation(navigationProp, homeScreenName);
+    } else if (unProtectedScreens.includes(routeName) &&
+        userData && !expiredUser &&
+        routeName !== ideasScreenName
+    ) {
+        console.log('-----2-----');
+        return handleNavigation(navigationProp, ideasScreenName);
+    }
+}
+
+export const getInitialRouteName = async () => {
+    const userData = await userDetails();
+    const expiredUser = userData && isExpired(userData.exp);
+
+    if (!userData  || expiredUser) {
+        return homeScreenName;
+    } else {
+        return ideasScreenName;
+    }
+}
+
+export function apiErrorHandler(error) {
     let errorMessage;
     let validationErrors;
     // if server gets an error response, handle it

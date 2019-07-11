@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from 'react-redux';
 import { View, ImageBackground } from "react-native";
 import PropTypes from 'prop-types';
@@ -8,11 +8,21 @@ import CustomButton from "../../components/CustomButton";
 import Text from "../../components/CustomText";
 import generalStyles from "../../components/generalStyles";
 import homePageStyles from "./styles";
-import { loginScreenName } from "../../helpers/defaults";
+import { loginScreenName, ideasScreenName } from "../../helpers/defaults";
 import { handleNavigation } from "../../helpers/utils";
 
 const HomeScreen = (props) => {
     const { utils: { fontLoaded }, navigation} = props;
+
+    // useEffect(() => {
+    //     const checkLogin = async () => {
+    //         const userDetails = await userDetails();
+
+    //         if (userDetails.isAuthenticated) {
+    //             navigation.navigate(ideasScreenName);
+    //         }
+    //     }
+    // });
 
     const handleLoginButton = () => {
         handleNavigation(navigation, loginScreenName);
@@ -60,9 +70,11 @@ const HomeScreen = (props) => {
     }
 
     return (
-        <Layout>
-            {renderScreen()}
-        </Layout>
+        // <Layout navigation={navigation}>
+            <Fragment>
+                {renderScreen()}
+            </Fragment>
+        // </Layout>
     );
 }
 

@@ -14,6 +14,10 @@ export const postUserDataFailure = error => ({
     type: types.POST_USER_DATA_FAILURE,
     error
 });
+
+export const logOutUser = () => ({
+    type: types.LOG_OUT_USER,
+});
   
 export const getUserData = id => ({
     type: types.GET_USER_DATA,

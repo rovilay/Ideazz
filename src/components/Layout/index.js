@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { Header } from "react-native-elements";
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { fontLoader } from "../../helpers/utils"; 
+import { fontLoader, authenticateScreen } from "../../helpers/utils"; 
 import Logo from '../Logo/index';
 import layoutStyle from "./styles";
 import Hamburger from "../Hamburger";
@@ -14,7 +15,23 @@ import {
 } from '../../redux/actionCreators/utilsActions';
 
 const Layout = (props) => {
-    const { children, utils: { fontLoaded } } = props;
+    const { children, utils: { fontLoaded }, navigation } = props;
+
+    // useEffect(() => {
+    //     console.log('I am authenticating')
+  
+    // });
+    // const didBlurSubscription = navigation.addListener(
+    //     'willFocus',
+    //     payload => {
+    //     //   console.debug('willFocus', payload);
+    //       authenticateScreen(navigation)
+    //     }
+    //   );
+      
+    //   // Remove the listener when you are done
+    // //   didBlurSubscription.remove();
+
     useEffect(() => {
         const loadFonts = async () => {
             try {
@@ -24,7 +41,6 @@ const Layout = (props) => {
             } catch (error) {
                 props.loadFontsFailure(false);
             }
-
         }
 
         loadFonts();
@@ -35,11 +51,11 @@ const Layout = (props) => {
             {fontLoaded ?
                 <React.Fragment>
                     <Header
-                        placement="left"
+                        // placement="left"
                         centerComponent={<Logo 
                             fontLoaded={fontLoaded} 
                         />}
-                        rightComponent={<Hamburger fontLoaded={fontLoaded} />}
+                        // rightComponent={<Hamburger fontLoaded={fontLoaded} />}
                         statusBarProps={{ barStyle: 'light-content' }}
                         containerStyle={layoutStyle.header}
                     />
@@ -52,6 +68,10 @@ const Layout = (props) => {
         </View>
     );
 }
+
+Layout.propTypes = {
+    navigation: PropTypes.object.isRequired,
+};
 
 export const mapStateToProps = ({ utils }) => ({ utils });
 

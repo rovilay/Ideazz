@@ -12,9 +12,14 @@ import authPagesStyles from "./styles";
 import generalStyles from "../../components/generalStyles";
 import { emailRegx, nameRegx, signupScreenName, loginScreenName } from "../../helpers/defaults";
 import LinkText from '../../components/LinkText';
+import { postUserData } from '../../redux/actionCreators/userActions';
 
 const AuthScreen = (props) => {
-    const { utils: { fontLoaded }, navigation} = props;
+    const { 
+        utils: { fontLoaded }, navigation, 
+        isLoading, postUserData
+    } = props;
+    
     const { routeName } = navigation.state;
     const [formFields, setFormFields] = useState({
         name: {
@@ -180,7 +185,7 @@ const AuthScreen = (props) => {
         pageTitle, otherAuth, promptMsg, currentAuth 
     } = getAuthPageAttributes(routeName);
     
-    const handleLoginClick = () => {
+    const handlePromptClick = () => {
         handleNavigation(props.navigation, otherAuth);
     };
 
@@ -193,11 +198,21 @@ const AuthScreen = (props) => {
         return disable;
     }
 
-    const pagePostion = currentAuth === signupScreenName ? 'flex-start' : 'center';
+    const handleFormSubmit = () => {
+        const userData = {
+            name: formFields.name.value,
+            email: formFields.email.value,
+            password: formFields.password.value,
+        }
+
+        postUserData(userData);
+    }
+
+    const pagePostion = currentAuth === signupScreenName ? '10%' : '30%';
 
     const renderForm = () => {
         return (
-            <View style={authPagesStyles.formContainer}>
+            <View style={{ ...authPagesStyles.formContainer, marginTop: pagePostion }}>
                 <Text fontLoaded={fontLoaded} 
                     customStyles={authPagesStyles.title }
                 >
@@ -319,10 +334,11 @@ const AuthScreen = (props) => {
                     disabledTitleStyle={{
                         color: generalStyles.whiteColor.color
                     }}
+                    onPress={handleFormSubmit}
                 />
                 <LinkText fontLoaded={fontLoaded}
                     customStyles={authPagesStyles.prompt}
-                    onPress={handleLoginClick}
+                    onPress={handlePromptClick}
                 >
                     {promptMsg}
                 </LinkText>
@@ -331,11 +347,8 @@ const AuthScreen = (props) => {
     }
 
     return (
-        <Layout>
-            <View style={{
-                ...authPagesStyles.container,
-                justifyContent: pagePostion
-            }}>
+        <Layout navigation={navigation}>
+            <View style={authPagesStyles.container}>
                 {renderForm()}
             </View>
         </Layout>
@@ -344,9 +357,17 @@ const AuthScreen = (props) => {
 
 AuthScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
-    utils: PropTypes.object.isRequired
+    utils: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    postUserData: PropTypes.func.isRequired
 };
 
-export const mapStateToProps = ({ utils }) => ({ utils });
+export const mapStateToProps = ({ utils, auth }) => ({ 
+    utils,
+    isLoading: auth.isLoading 
+});
+const mapDispatchToProps = {
+    postUserData
+};
 
-export default connect(mapStateToProps, {})(AuthScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

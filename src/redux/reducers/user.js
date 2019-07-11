@@ -5,13 +5,14 @@ import {
     GET_USER_DATA,
     GET_USER_DATA_SUCCESS,
     GET_USER_DATA_FAILURE,
+    LOG_OUT_USER,
 } from '../constants/actionTypes';
 
 const initialState = {
     currentUser: {},
     errors: [],
     getCurrentUserRole: [],
-    isLoaded: false,
+    isLoading: false,
     error: false
 };
 const user = (state = initialState, action) => {
@@ -35,17 +36,23 @@ const user = (state = initialState, action) => {
                     isLoaded: false
             };
         case POST_USER_DATA:
-            return { ...state };
+            return { ...state, isLoading: true };
         case POST_USER_DATA_SUCCESS:
             return {
                 ...state,
+                isLoading: false,
                 currentUser: action.userData,
             };
         case POST_USER_DATA_FAILURE:
             return {
                 ...state,
                 currentUser: {},
+                isLoading: false,
                 errors: action.error
+            };
+        case LOG_OUT_USER:
+            return {
+                ...initialState,
             };
         default:
             return state;

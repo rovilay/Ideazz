@@ -4,9 +4,11 @@ import generalStyles from '../../components/generalStyles';
 const authPagesStyles = StyleSheet.create({
 	container: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
-        width:  '100%'
+        width:  '100%',
+        borderWidth: 1,
+        borderColor: 'red'
     },
     title: {
         fontSize: 35,
@@ -20,8 +22,8 @@ const authPagesStyles = StyleSheet.create({
         width: '100%',
         padding: 5,
         marginTop: '10%',
-        borderWidth: 0,
-        borderColor: 'pink'
+        borderWidth: 1,
+        borderColor: 'pink',
     },
     form: {
         paddingLeft: 5,

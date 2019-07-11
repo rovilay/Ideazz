@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-require('dotenv').config();
+// require('dotenv').config();
 
-const baseUrl = process.env.REACT_APP_API_URL;
+const baseUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5555/api/v1";
 
 class UserAPI {
-    static postNewUsers(userData) {
-        return axios.post(`${baseUrl}/user/signup`, userData);
+    static postNewUser(userData) {
+        return axios.post(`${baseUrl}/users/signup`, userData);
     }
 
     static loginUser(userData) {
-        return axios.get(`${baseUrl}/user/signin`, userData);
+        return axios.get(`${baseUrl}/users/signin`, userData);
     }
 
     // static getUserDataFromStagingApi(email) {

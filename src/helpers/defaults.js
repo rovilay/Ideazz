@@ -3,4 +3,7 @@ export const nameRegx = /^[a-zA-Z]([\w -]*[a-zA-Z])?$/;
 export const homeScreenName = "Home";
 export const loginScreenName = "Login";
 export const signupScreenName = "Signup";
+export const ideasScreenName = "Ideas";
+export const settingsScreenName = "Settings";
 export const jwtKey = "jwtToken";
+export const unProtectedScreens = [homeScreenName, loginScreenName, signupScreenName];
