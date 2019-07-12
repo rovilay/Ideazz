@@ -24,22 +24,22 @@ const AuthScreen = (props) => {
     const { routeName } = navigation.state;
     const [formFields, setFormFields] = useState({
         name: {
-            valid: '',
+            valid: false,
             value: '',
             errorMessage: ''
         },
         email: {
-            valid: '',
+            valid: false,
             value: '',
             errorMessage: ''
         },
         password: {
-            valid: '',
+            valid: false,
             value: '',
             errorMessage: ''
         },
         confirmPassword: {
-            valid: '',
+            valid: false,
             value: '',
             errorMessage: ''
         }
@@ -220,11 +220,12 @@ const AuthScreen = (props) => {
         return (
             <View style={{ ...authPagesStyles.formContainer, marginTop: pagePostion }}>
                 <Text fontLoaded={fontLoaded} 
-                    customStyles={authPagesStyles.title }
+                    customStyles={authPagesStyles.title}
                 >
                     {pageTitle}
                 </Text>
                 <View style={authPagesStyles.form}>
+                    {console.log(authError.state)}
                     {authError.state &&
                         <Text fontLoaded={fontLoaded} 
                             customStyles={{ ...authPagesStyles.error, paddingLeft: 10 }}
@@ -392,6 +393,7 @@ export const mapStateToProps = ({ utils, auth }) => ({
     isLoading: auth.isLoading,
     authError: auth.errors,
 });
+
 const mapDispatchToProps = {
     signUpUser,
     logInUser

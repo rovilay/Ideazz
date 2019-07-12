@@ -26,9 +26,12 @@ export const logInUserSuccess = userData => ({
 });
   
   
-export const logInUserFailure = error => ({
+export const logInUserFailure = (error, showError = true) => ({
     type: types.LOG_IN_USER_FAILURE,
-    error
+    error: {
+      message: error,
+      showError
+    }
 });
 
 export const logOutUser = () => ({

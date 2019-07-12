@@ -7,7 +7,7 @@ import AuthScreen from '../views/Auth';
 import IdeasScreen from '../views/Ideas';
 import SettingsScreen from '../views/Settings';
 import {
-    loginScreenName, signupScreenName,
+    loginScreenName, signupScreenName, ideaFeedsScreenName,
     homeScreenName, ideasScreenName, settingsScreenName
 } from '../helpers/defaults';
 import { getInitialRouteName } from '../helpers/utils';
@@ -42,7 +42,7 @@ const Routes = {
 // const initialRouteName = getInitialRouteName();
 // console.log(initialRouteName, '---------------')
 const Tabs = createBottomTabNavigator({
-    "IdeaFeeds": {
+    [ideaFeedsScreenName]: {
         screen: AuthScreen,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => {
@@ -83,7 +83,7 @@ const Tabs = createBottomTabNavigator({
         }
     },
 }, {
-    initialRouteName: settingsScreenName
+    initialRouteName: ideasScreenName
 });
 
 const Root = createStackNavigator({
@@ -104,7 +104,7 @@ const Root = createStackNavigator({
     }
 }, {
     headerMode: 'none',
-    initialRouteName:  homeScreenName
+    // initialRouteName:  Tabs
 });
 
 const AppNavigator = createDrawerNavigator(Routes, { 

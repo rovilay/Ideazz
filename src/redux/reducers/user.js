@@ -16,9 +16,9 @@ const initialState = {
         errors: [],
         state: false
     },
-    getCurrentUserRole: [],
     isLoading: false,
 };
+
 const user = (state = initialState, action) => {
     switch (action.type) {
         case SIGN_UP_USER:
@@ -60,8 +60,8 @@ const user = (state = initialState, action) => {
                 isLoading: false,
                 errors: {
                     message: loginFailureMessage,
-                    errors: action.error,
-                    state: true,
+                    errors: action.error.message,
+                    state: action.error.showError,
                 }
             };
         case LOG_OUT_USER:

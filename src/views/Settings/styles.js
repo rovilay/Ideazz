@@ -7,7 +7,7 @@ const authPagesStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width:  '100%',
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: 'red'
     },
     title: {

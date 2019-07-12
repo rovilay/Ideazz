@@ -70,14 +70,12 @@ export const authenticateScreen = async (navigationProp) => {
         !unProtectedScreens.includes(routeName) &&
         routeName !== homeScreenName
     ) {
-        console.log('-----1------');
         await AsyncStorage.removeItem(jwtKey);
         return handleNavigation(navigationProp, homeScreenName);
     } else if (unProtectedScreens.includes(routeName) &&
         userData && !expiredUser &&
         routeName !== ideasScreenName
     ) {
-        console.log('-----2-----');
         return handleNavigation(navigationProp, ideasScreenName);
     }
 }

@@ -2,11 +2,19 @@
 import { all } from 'redux-saga/effects';
 
 import { watchSignUpUserSagaAsync, watchLogInUserSagaAsync } from './userSaga';
+import {
+	watchCreateIdeaSagaAsync,
+	watchEditIdeaSagaAsync,
+	watchUpdateIdeaSagaAsync
+} from './ideaSaga';
 
 function* rootSaga() {
 	yield all([
 		watchSignUpUserSagaAsync(),
-		watchLogInUserSagaAsync()
+		watchLogInUserSagaAsync(),
+		watchUpdateIdeaSagaAsync(),
+		watchEditIdeaSagaAsync(),
+		watchCreateIdeaSagaAsync(),
 	]);
 }
 

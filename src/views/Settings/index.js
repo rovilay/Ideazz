@@ -24,7 +24,7 @@ const SettingsScreen = (props) => {
         handleNavigation(navigation, homeScreenName);
     }
 
-    const renderView = () => {
+    const renderScreen = () => {
         return (
             <Fragment>
                 <Button
@@ -41,7 +41,7 @@ const SettingsScreen = (props) => {
     return (
         // <Layout navigation={navigation}>
             <View style={settingsPageStyles.container}>
-                {renderView()}
+                {renderScreen()}
             </View>
         // </Layout>
     );

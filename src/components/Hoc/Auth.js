@@ -34,7 +34,7 @@ export default function(Screen) {
             if (userData.isAuthenticated) {
                 this.props.logInUserSuccess(userData);
             } else {
-                this.props.logInUserFailure("invalid token");
+                this.props.logInUserFailure("invalid token", false);
             }
             // await this.loadFonts();
         }
