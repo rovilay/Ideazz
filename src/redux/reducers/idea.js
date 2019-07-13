@@ -10,6 +10,9 @@ import {
     GET_ALL_IDEAS,
     GET_ALL_IDEAS_SUCCESS,
     GET_ALL_IDEAS_FAILURE,
+    DELETE_IDEA,
+    DELETE_IDEA_SUCCESS,
+    DELETE_IDEA_FAILURE,
     LOG_OUT_USER
 } from '../constants/actionTypes';
 import { limit } from '../../helpers/defaults';
@@ -116,6 +119,28 @@ const idea = (state = initialState, action) => {
                     state: true,
                 },
                 ideaOnFocus: initialState.ideaOnFocus
+            };
+        case DELETE_IDEA:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case DELETE_IDEA_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                ideas: state.ideas.filter(idea => idea.id !== action.ideaId),
+                errors: initialState.errors,
+            };
+        case DELETE_IDEA_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                errors: {
+                    message: action.error,
+                    errors: action.error,
+                    state: true,
+                },
             };
         case LOG_OUT_USER:
             return {

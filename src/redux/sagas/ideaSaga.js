@@ -9,12 +9,15 @@ import {
     updateIdea,
     editIdea,
     getAllIdeas,
+    deleteIdea,
     createIdeaSuccess,
     updateIdeaSuccess,
     getAllIdeasSuccess,
+    deleteIdeaSuccess,
     createIdeaFailure,
     updateIdeaFailure,
-    getAllIdeasFailure
+    getAllIdeasFailure,
+    deleteIdeaFailure
 } from '../actionCreators/ideaActions';
 
 export function* watchCreateIdeaSagaAsync() {
@@ -38,7 +41,7 @@ export function* watchEditIdeaSagaAsync() {
 
 export function* editIdeaSagaAsync() {
     try {
-        NavigationService.navigate(ideasScreenName);
+        NavigationService.navigate(ideasScreenName, { view: 'update' });
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
         yield put(updateIdeaFailure(errorMessage));
@@ -76,5 +79,20 @@ export function* getAllIdeasSagaAsync(action) {
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
         yield put(getAllIdeasFailure(errorMessage));
+    }
+}
+
+export function* watchDeleteIdeaSagaAsync() {
+  yield takeLatest(deleteIdea().type, deleteIdeaSagaAsync);
+}
+
+export function* deleteIdeaSagaAsync(action) {
+    try {
+        console.log(action.ideaId);
+        const response = yield call(IdeaAPI.deleteIdea, action.ideaId);
+        yield put(deleteIdeaSuccess(action.ideaId));
+    } catch (error) {
+        const errorMessage = apiErrorHandler(error);
+        yield put(deleteIdeaFailure(errorMessage));
     }
 }

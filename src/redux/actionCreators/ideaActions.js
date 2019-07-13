@@ -43,16 +43,6 @@ export const getIdea = (ideaId) => ({
     type: types.GET_IDEA,
     ideaId
 });
-  
-export const getIdeaSuccess = idea => ({
-    type: types.GET_IDEA_SUCCESS,
-    idea
-});
-  
-export const getIdeaFailure = error => ({
-    type: types.GET_IDEA_FAILURE,
-    error
-});
 
 export const getAllIdeas = (Limit = limit, offset = 0) => ({
     type: types.GET_ALL_IDEAS,
@@ -74,5 +64,20 @@ export const getAllIdeasSuccess = ({ ideas, limit, offset, total }) => ({
   
 export const getAllIdeasFailure = error => ({
     type: types.GET_ALL_IDEAS_FAILURE,
+    error
+});
+
+export const deleteIdea = ideaId => ({
+    type: types.DELETE_IDEA,
+    ideaId
+});
+
+export const deleteIdeaSuccess = ideaId => ({
+    type: types.DELETE_IDEA_SUCCESS,
+    ideaId
+});
+  
+export const deleteIdeaFailure = error => ({
+    type: types.DELETE_IDEA_FAILURE,
     error
 });

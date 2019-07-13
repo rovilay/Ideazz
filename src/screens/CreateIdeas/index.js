@@ -15,33 +15,35 @@ import {
 import { createIdea, updateIdea } from '../../redux/actionCreators/ideaActions';
 
 const IdeasScreen = (props) => {
+    const { 
+        utils: { fontLoaded }, ideaOnFocus,
+        createIdea, updateIdea, isLoading, navigation
+    } = props;
+
+    const view = navigation.getParam('view', 'create');
+
     const [ideaForm, setIdeaForm] = useState({
         title: {
             valid: false,
-            value: '',
+            value: ideaOnFocus.title || '',
             errorMessage: ''
         },
         confidence: {
             valid: true,
-            value: 1,
+            value: ideaOnFocus.confidence || 1,
             errorMessage: ''
         },
         ease: {
             valid: true,
-            value: 1,
+            value: ideaOnFocus.ease || 1,
             errorMessage: ''
         },
         impact: {
             valid: true,
-            value: 1,
+            value: ideaOnFocus.impact || 1,
             errorMessage: ''
         },
     });
-
-    const { 
-        utils: { fontLoaded }, ideaOnFocus,
-        createIdea, updateIdea, isLoading
-    } = props;
 
     const handleFormChange = (value, field) => {
         const confirmField = {
@@ -64,7 +66,8 @@ const IdeasScreen = (props) => {
 
     const disableSubmit = () => {
         const { title, confidence, ease, impact } = ideaForm;
-        const disable =  isLoading || !title.valid || !confidence.valid || !ease.valid || !impact.valid;
+        const disable =  isLoading || !title.valid ||
+            !confidence.valid || !ease.valid || !impact.valid;
 
         return disable;
     }
@@ -77,7 +80,11 @@ const IdeasScreen = (props) => {
             impact: ideaForm.impact.value,
         }
 
-        createIdea(idea);
+        if (view === 'create') {
+            createIdea(idea);
+        } else {
+            updateIdea(ideaOnFocus.id, idea);
+        }
     }
 
     const renderRatingSlider = (rating) => {
@@ -88,25 +95,17 @@ const IdeasScreen = (props) => {
                         {rating}: {ideaForm[rating].value}
                     </Text>
                 </View>
-                <View style={{ 
-                    flex: 1, alignItems: 'stretch', 
-                        justifyContent: 'center', marginTop: 10,
-                        padding: 10
-                    }}
+                <View style={ideasScreenStyles.slider}
                 >
                     <Slider
                         value={ideaForm[rating].value}
-                        onSlidingComplete={value => handleFormChange(
-                            value, rating)}
+                        onSlidingComplete={value => handleFormChange(value, rating)}
                         step={1}
                         minimumValue={minimumRating}
                         maximumValue={maximumRating}
                         minimumTrackTintColor={generalStyles.defaultColor.color}
                         maximumTrackTintColor={generalStyles.disabledColor.color}
                         thumbTintColor={generalStyles.defaultColor.color}
-                        trackStyle={{
-                            shadowColor: "yellow"
-                        }}
                     />
                 </View>
             </View>
@@ -155,7 +154,7 @@ const IdeasScreen = (props) => {
     const renderFormButton = () => {
         return (
             <Button
-                title="create"
+                title={view}
                 containerStyle={ideasScreenStyles.formButtonContainer}
                 buttonStyle={ideasScreenStyles.formButton}
                 titleStyle={ideasScreenStyles.formButtonText}
@@ -190,13 +189,13 @@ const IdeasScreen = (props) => {
 }
 
 IdeasScreen.propTypes = {
+    navigation: PropTypes.object.isRequired,
     utils: PropTypes.object.isRequired,
     ideaOnFocus: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     createIdea: PropTypes.func.isRequired,
     updateIdea: PropTypes.func.isRequired,
 };
-
 
 export const mapStateToProps = ({ idea, utils }) => ({ 
     utils,

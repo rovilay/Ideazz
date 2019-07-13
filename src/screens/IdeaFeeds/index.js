@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { View, FlatList, ActivityIndicator } from "react-native";
+import { View, FlatList, ActivityIndicator, Alert } from "react-native";
 import { ListItem, Badge, Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/SimpleLineIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -18,7 +18,9 @@ import ideaFeedsStyles from "./styles";
 import {
     confidenceRatingTitle, impactRatingTitle, easeRatingTitle
 } from "../../helpers/defaults";
-import { getAllIdeas, getIdea, editIdea } from '../../redux/actionCreators/ideaActions';
+import { 
+    getAllIdeas, getIdea, editIdea, deleteIdea 
+} from '../../redux/actionCreators/ideaActions';
 import CustomModal from "../../components/Modal";
 import { closeModal, openModal } from '../../redux/actionCreators/utilsActions';
 
@@ -27,7 +29,7 @@ const IdeaFeeds = (props) => {
 
     const { 
         utils: { fontLoaded, modal }, navigation,
-        ideas, isLoading, getAllIdeas, getIdea,
+        ideas, isLoading, getAllIdeas, deleteIdea,
         limit, offset, total, openModal, closeModal,
         editIdea
     } = props;
@@ -39,9 +41,7 @@ const IdeaFeeds = (props) => {
     }, []);
 
     const handleScrollEnd = () => {
-        console.log('i want to fetch')
         if (ideas.length < total) {
-            console.log('I am fetching')
             const nextOffset = offset + limit;
             getAllIdeas(limit, nextOffset);
         }
@@ -57,8 +57,8 @@ const IdeaFeeds = (props) => {
         }
     }
 
-    const handleEditIdea = (idea) => {
-        editIdea(idea.id);
+    const handleEditIdea = (ideaId) => {
+        editIdea(ideaId);
     }
 
     const handleViewIdea = (idea) => {
@@ -85,7 +85,26 @@ const IdeaFeeds = (props) => {
 				/>
 			</View>
         );
-	}
+    }
+
+    const renderDeletePrompt = (ideaId) => {
+        return Alert.alert(
+            'confirm delete?',
+            '',
+            [
+              {
+                text: 'Cancel',
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: () => deleteIdea(ideaId),
+                style: 'cancel'
+            },
+            ],
+            {cancelable: false},
+        );
+    }
 
     const renderFeedOptionsMenu = (idea) => {
         return (
@@ -101,7 +120,7 @@ const IdeaFeeds = (props) => {
                     <MenuOptions customStyles={{
                         optionsContainer: { width: 'auto' },
                     }}>
-                    <MenuOption onSelect={() => handleEditIdea(idea)} 
+                    <MenuOption onSelect={() => handleEditIdea(idea.id)} 
                         style={{ margin: 5 }}
                     >
                         <MaterialIcon
@@ -110,7 +129,9 @@ const IdeaFeeds = (props) => {
                             size={20}
                         />
                     </MenuOption>
-                    <MenuOption onSelect={() => alert(`Save`)} style={{ margin: 5 }}>
+                    <MenuOption style={{ margin: 5 }}
+                        onSelect={() => renderDeletePrompt(idea.id)}
+                    >
                         <MaterialIcon
                             name="trash-can"
                             color={generalStyles.disabledColor.color}
@@ -261,6 +282,7 @@ const mapDispatchToProps = {
     getAllIdeas,
     getIdea,
     editIdea,
+    deleteIdea,
     openModal,
     closeModal
 };

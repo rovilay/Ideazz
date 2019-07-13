@@ -11,45 +11,10 @@ const ideasScreenStyles = StyleSheet.create({
         borderWidth: 0,
         backgroundColor: 'transparent'
     },
-    formContainer: { 
-        width: '100%',
-        padding: 5,
-        marginTop: '10%',
-        borderWidth: 0,
-        borderColor: 'pink'
-    },
-    backgroundImage: {
-        flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'cover'
-    },
-    header: {
-        flexBasis: '15%',
-        borderBottomColor: 'transparent'
-    },
-    content: {
-        flexBasis: '85%',
-        justifyContent: 'center',
-        // alignItems: '',
-        // borderColor: 'blue',
-        // borderWidth: 1,
-        width: '100%',
-        // height: '100%',
-    },
     title: {
         fontFamily: 'vince',
         fontSize: 30,
         color: generalStyles.blackColor.color
-    },
-    intro: {
-        fontFamily: 'vince',
-        fontSize: 60,
-        color: generalStyles.whiteColor.color
-    },
-    button: {
-        fontSize: 42, 
-        // backgroundColor: 'red',
     },
     formContainer: { 
         width: '100%',
@@ -69,6 +34,11 @@ const ideasScreenStyles = StyleSheet.create({
     },
     rating: {
         marginTop: 20,
+    },
+    slider: {
+        flex: 1, alignItems: 'stretch', 
+        justifyContent: 'center', marginTop: 10,
+        padding: 10
     },
     formInputContainer: {
         borderColor: generalStyles.defaultColor.color,
