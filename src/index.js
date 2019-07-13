@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+import { MenuProvider } from 'react-native-popup-menu';
 
 import * as NavigationService from './services/NavigationService';
 import store from './redux/store';
@@ -14,9 +15,11 @@ const App = () => {
 
     return ( 
         <Provider store = {store}>
-            <Routes ref={nav => {
-                navigator = nav; }}
-            />
+            <MenuProvider>
+                <Routes ref={nav => {
+                    navigator = nav; }}
+                />
+            </MenuProvider>
         </Provider>
     );
 }

@@ -5,7 +5,8 @@ import { watchSignUpUserSagaAsync, watchLogInUserSagaAsync } from './userSaga';
 import {
 	watchCreateIdeaSagaAsync,
 	watchEditIdeaSagaAsync,
-	watchUpdateIdeaSagaAsync
+	watchUpdateIdeaSagaAsync,
+	watchGetAllIdeasSagaAsync
 } from './ideaSaga';
 
 function* rootSaga() {
@@ -15,6 +16,7 @@ function* rootSaga() {
 		watchUpdateIdeaSagaAsync(),
 		watchEditIdeaSagaAsync(),
 		watchCreateIdeaSagaAsync(),
+		watchGetAllIdeasSagaAsync(),
 	]);
 }
 

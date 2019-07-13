@@ -225,7 +225,6 @@ const AuthScreen = (props) => {
                     {pageTitle}
                 </Text>
                 <View style={authPagesStyles.form}>
-                    {console.log(authError.state)}
                     {authError.state &&
                         <Text fontLoaded={fontLoaded} 
                             customStyles={{ ...authPagesStyles.error, paddingLeft: 10 }}

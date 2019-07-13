@@ -8,10 +8,13 @@ import {
     createIdea,
     updateIdea,
     editIdea,
+    getAllIdeas,
     createIdeaSuccess,
     updateIdeaSuccess,
+    getAllIdeasSuccess,
     createIdeaFailure,
     updateIdeaFailure,
+    getAllIdeasFailure
 } from '../actionCreators/ideaActions';
 
 export function* watchCreateIdeaSagaAsync() {
@@ -22,7 +25,7 @@ export function* createIdeaSagaAsync(action) {
     try {
         const response = yield call(IdeaAPI.postIdea, action.ideaData);
         yield put(createIdeaSuccess(response.data.idea));
-        yield put(NavigationService.navigate(ideaFeedsScreenName));
+        NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
         yield put(createIdeaFailure(errorMessage));
@@ -35,7 +38,7 @@ export function* watchEditIdeaSagaAsync() {
 
 export function* editIdeaSagaAsync() {
     try {
-        yield put(NavigationService.navigate(ideasScreenName));
+        NavigationService.navigate(ideasScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
         yield put(updateIdeaFailure(errorMessage));
@@ -50,9 +53,28 @@ export function* updateIdeaSagaAsync(action) {
     try {
         const response = yield call(IdeaAPI.updateIdea, action.updateData);
         yield put(updateIdeaSuccess(response.data.idea));
-        yield put(NavigationService.navigate(ideaFeedsScreenName));
+        NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
         yield put(updateIdeaFailure(errorMessage));
+    }
+}
+
+export function* watchGetAllIdeasSagaAsync() {
+  yield takeLatest(getAllIdeas().type, getAllIdeasSagaAsync);
+}
+
+export function* getAllIdeasSagaAsync(action) {
+    try {
+        const response = yield call(IdeaAPI.getAllIdeas, action.options);
+        const { ideas, offset, limit, total } = response.data;
+        yield put(getAllIdeasSuccess({ ideas, 
+            offset: Number(offset),
+            limit: Number(limit),
+            total 
+        }));
+    } catch (error) {
+        const errorMessage = apiErrorHandler(error);
+        yield put(getAllIdeasFailure(errorMessage));
     }
 }

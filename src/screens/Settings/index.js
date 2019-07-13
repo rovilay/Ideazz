@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { View, AsyncStorage } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
@@ -20,6 +21,7 @@ const SettingsScreen = (props) => {
 
     const handleLogOut = async () => {
         await AsyncStorage.removeItem(jwtKey);
+        axios.defaults.headers.common['Authorization'] = '';
         logOutUser();
         handleNavigation(navigation, homeScreenName);
     }

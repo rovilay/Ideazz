@@ -30,7 +30,7 @@ CustomText.propTypes = {
 };
 
 CustomText.defaultProps = {
-    fontLoaded: false,
+    fontLoaded: true,
     customStyles: {},
 };
 

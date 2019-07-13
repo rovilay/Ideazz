@@ -2,17 +2,17 @@ import React from 'react';
 import { createBottomTabNavigator, createMaterialTopTabNavigator, createDrawerNavigator, createAppContainer, createStackNavigator } from "react-navigation";
 
 import AuthenticateScreen from '../components/Hoc/Auth';
-import HomeScreen from '../views/HomeScreen';
-import AuthScreen from '../views/Auth';
-import IdeasScreen from '../views/Ideas';
-import SettingsScreen from '../views/Settings';
+import HomeScreen from '../screens/Home';
+import AuthScreen from '../screens/Auth';
+import CreateIdeasScreen from '../screens/CreateIdeas';
+import SettingsScreen from '../screens/Settings';
 import {
     loginScreenName, signupScreenName, ideaFeedsScreenName,
     homeScreenName, ideasScreenName, settingsScreenName
 } from '../helpers/defaults';
-import { getInitialRouteName } from '../helpers/utils';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import generalStyles from '../components/generalStyles';
+import IdeaFeedsScreen from '../screens/IdeaFeeds';
 
 
 const Routes = {
@@ -26,24 +26,13 @@ const Routes = {
         screen: AuthScreen
     },
     [ideasScreenName]: {
-        screen: IdeasScreen
+        screen: CreateIdeasScreen
     }
 };
 
-// const ModalStack = createStackNavigator({
-//     modal: {
-//         screen: AuthScreen
-//     },
-// },  {
-//     mode: 'modal',
-//     headerMode: 'none',
-// });
-
-// const initialRouteName = getInitialRouteName();
-// console.log(initialRouteName, '---------------')
 const Tabs = createBottomTabNavigator({
     [ideaFeedsScreenName]: {
-        screen: AuthScreen,
+        screen: AuthenticateScreen(IdeaFeedsScreen),
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => {
                 return <Icon name="format-list-bulleted" color={tintColor} size={24} /> 
@@ -57,7 +46,7 @@ const Tabs = createBottomTabNavigator({
         }
     },
     [ideasScreenName]: {
-        screen: AuthenticateScreen(IdeasScreen),
+        screen: AuthenticateScreen(CreateIdeasScreen),
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => {
                 return <Icon name="lightbulb-on" color={tintColor} size={24} /> 
@@ -83,7 +72,7 @@ const Tabs = createBottomTabNavigator({
         }
     },
 }, {
-    initialRouteName: ideasScreenName
+    initialRouteName: ideaFeedsScreenName
 });
 
 const Root = createStackNavigator({

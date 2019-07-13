@@ -39,7 +39,7 @@ const IdeasScreen = (props) => {
     });
 
     const { 
-        utils: { fontLoaded }, ideaOnEdit,
+        utils: { fontLoaded }, ideaOnFocus,
         createIdea, updateIdea, isLoading
     } = props;
 
@@ -49,8 +49,6 @@ const IdeasScreen = (props) => {
             value,
             valid: !!value,
         };
-
-        console.log(typeof value, '----');
 
         if (!confirmField.valid) {
             confirmField.errorMessage = `${field} is required`;
@@ -79,7 +77,6 @@ const IdeasScreen = (props) => {
             impact: ideaForm.impact.value,
         }
 
-        console.log(idea, 'the idea------')
         createIdea(idea);
     }
 
@@ -99,7 +96,7 @@ const IdeasScreen = (props) => {
                 >
                     <Slider
                         value={ideaForm[rating].value}
-                        onValueChange={value => handleFormChange(
+                        onSlidingComplete={value => handleFormChange(
                             value, rating)}
                         step={1}
                         minimumValue={minimumRating}
@@ -194,7 +191,7 @@ const IdeasScreen = (props) => {
 
 IdeasScreen.propTypes = {
     utils: PropTypes.object.isRequired,
-    ideaOnEdit: PropTypes.object.isRequired,
+    ideaOnFocus: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     createIdea: PropTypes.func.isRequired,
     updateIdea: PropTypes.func.isRequired,
@@ -203,7 +200,7 @@ IdeasScreen.propTypes = {
 
 export const mapStateToProps = ({ idea, utils }) => ({ 
     utils,
-    ideaOnEdit: idea.ideaOnEdit,
+    ideaOnFocus: idea.ideaOnFocus,
     isLoading: idea.isLoading
 });
 

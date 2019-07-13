@@ -14,6 +14,7 @@ const SignupScreen = (props) => {
         inputStyle, label, labelStyle, labelProps,
         leftIcon, leftIconContainerStyle,
     } = props;
+    
     const renderView = () => {
         if (fontLoaded) {
             return (

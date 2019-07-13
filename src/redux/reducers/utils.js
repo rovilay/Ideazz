@@ -1,7 +1,10 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-    fontLoaded: false
+    fontLoaded: false,
+    modal: {
+        isVisible: false
+    }
 };
 const utils = (state = initialState, action) => {
     switch (action.type) {
@@ -19,6 +22,22 @@ const utils = (state = initialState, action) => {
             return {
                 ...state,
                 fontLoaded: action.fontLoaded
+            };
+        case types.OPEN_MODAL:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    isVisible: action.visibility
+                }
+            };
+        case types.CLOSE_MODAL:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    isVisible: action.visibility
+                }
             };
         default:
             return state;

@@ -14,3 +14,4 @@ export const easeRatingTitle = "ease";
 export const impactRatingTitle = "impact";
 export const minimumRating = 1;
 export const maximumRating = 10;
+export const limit = 10;
