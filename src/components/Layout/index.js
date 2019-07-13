@@ -17,21 +17,6 @@ import {
 const Layout = (props) => {
     const { children, utils: { fontLoaded }, navigation } = props;
 
-    // useEffect(() => {
-    //     console.log('I am authenticating')
-  
-    // });
-    // const didBlurSubscription = navigation.addListener(
-    //     'willFocus',
-    //     payload => {
-    //     //   console.debug('willFocus', payload);
-    //       authenticateScreen(navigation)
-    //     }
-    //   );
-      
-    //   // Remove the listener when you are done
-    // //   didBlurSubscription.remove();
-
     useEffect(() => {
         const loadFonts = async () => {
             try {

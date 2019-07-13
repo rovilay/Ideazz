@@ -10,9 +10,12 @@ export const signUpUserSuccess = userData => ({
     userData
 });
   
-export const signUpUserFailure = error => ({
+export const signUpUserFailure = (error, showError = true) => ({
     type: types.SIGN_UP_USER_FAILURE,
-    error
+    error: {
+      message: error,
+      showError
+    }
 });
   
 export const logInUser = userData => ({

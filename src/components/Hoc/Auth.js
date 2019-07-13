@@ -30,13 +30,11 @@ export default function(Screen) {
 
         async componentDidMount() {
             const userData = await userDetails();
-            // await AsyncStorage.removeItem(jwtKey);
             if (userData.isAuthenticated) {
                 this.props.logInUserSuccess(userData);
             } else {
                 this.props.logInUserFailure("invalid token", false);
             }
-            // await this.loadFonts();
         }
 
         loadFonts = async () => {

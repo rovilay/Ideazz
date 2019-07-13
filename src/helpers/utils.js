@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 
 import { 
     loginScreenName, signupScreenName, homeScreenName,
-    jwtKey, unProtectedScreens, ideasScreenName 
+    jwtKey, unProtectedScreens, ideasScreenName, ideaFeedsScreenName,
 } from './defaults';
 
 export const fontLoader = () => {
@@ -74,9 +74,9 @@ export const authenticateScreen = async (navigationProp) => {
         return handleNavigation(navigationProp, homeScreenName);
     } else if (unProtectedScreens.includes(routeName) &&
         userData && !expiredUser &&
-        routeName !== ideasScreenName
+        routeName !== ideaFeedsScreenName
     ) {
-        return handleNavigation(navigationProp, ideasScreenName);
+        return handleNavigation(navigationProp, ideaFeedsScreenName);
     }
 }
 
@@ -116,7 +116,7 @@ export function apiErrorHandler(error) {
         }
     } else {
         //  if server is down, client won't get a response
-        errorMessage = 'Possible network error, please reload the page';
+        errorMessage = 'Possible network error, please check your connection and try again';
     }
     return errorMessage;
 }

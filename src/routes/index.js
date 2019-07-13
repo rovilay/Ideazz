@@ -62,7 +62,7 @@ const Tabs = createBottomTabNavigator({
         screen: AuthenticateScreen(SettingsScreen),
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => {
-                return <Icon name="settings" color={tintColor} size={24} /> 
+                return <Icon name="logout" color={tintColor} size={24} /> 
             },
             tabBarOptions: {
                 activeTintColor: generalStyles.defaultColor.color,
@@ -93,7 +93,7 @@ const Root = createStackNavigator({
     }
 }, {
     headerMode: 'none',
-    // initialRouteName:  Tabs
+    initialRouteName:  homeScreenName
 });
 
 const AppNavigator = createDrawerNavigator(Routes, { 

@@ -36,9 +36,9 @@ const user = (state = initialState, action) => {
                 currentUser: {},
                 isLoading: false,
                 errors: {
-                    message: action.error,
-                    errors: action.error,
-                    state: true,
+                    message: action.error.message,
+                    errors: action.error.message,
+                    state: action.error.showError,
                 }
             };
         case LOG_IN_USER:

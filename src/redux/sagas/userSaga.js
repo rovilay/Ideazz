@@ -22,10 +22,17 @@ export function* signUpUserSagaAsync(action) {
         const response = yield call(UserAPI.signUpUser, action.userData);
         const userData = yield userDetails(response.data.token);
         yield put(signUpUserSuccess(userData));
-        yield put(NavigationService.navigate(ideasScreenName));
+        NavigationService.navigate(ideasScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
-        yield put(signUpUserFailure(errorMessage));
+        let showError = true;
+
+        if (errorMessage.includes('network')) {
+            showError = false
+            alert(errorMessage);
+        }
+
+        yield put(signUpUserFailure(errorMessage, showError));
     }
 }
 
@@ -38,9 +45,16 @@ export function* logInUserSagaAsync(action) {
         const response = yield call(UserAPI.logInUser, action.userData);
         const userData = yield userDetails(response.data.token);
         yield put(logInUserSuccess(userData));
-        yield put(NavigationService.navigate(ideaFeedsScreenName));
+        NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
-        yield put(logInUserFailure(errorMessage));
+        let showError = true;
+        
+        if (errorMessage.includes('network')) {
+            showError = false
+            alert(errorMessage);
+        }
+
+        yield put(logInUserFailure(errorMessage, showError));
     }
 }

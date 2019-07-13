@@ -31,6 +31,11 @@ export function* createIdeaSagaAsync(action) {
         NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
+
+        if (errorMessage.includes('network')) {
+            alert(errorMessage);
+        }
+
         yield put(createIdeaFailure(errorMessage));
     }
 }
@@ -44,6 +49,11 @@ export function* editIdeaSagaAsync() {
         NavigationService.navigate(ideasScreenName, { view: 'update' });
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
+
+        if (errorMessage.includes('network')) {
+            alert(errorMessage);
+        }
+
         yield put(updateIdeaFailure(errorMessage));
     }
 }
@@ -59,6 +69,10 @@ export function* updateIdeaSagaAsync(action) {
         NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
+
+        if (errorMessage.includes('network')) {
+            alert(errorMessage);
+        }
         yield put(updateIdeaFailure(errorMessage));
     }
 }
@@ -78,6 +92,11 @@ export function* getAllIdeasSagaAsync(action) {
         }));
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
+
+        if (errorMessage.includes('network')) {
+            alert(errorMessage);
+        }
+
         yield put(getAllIdeasFailure(errorMessage));
     }
 }
@@ -93,6 +112,11 @@ export function* deleteIdeaSagaAsync(action) {
         yield put(deleteIdeaSuccess(action.ideaId));
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
+
+        if (errorMessage.includes('network')) {
+            alert(errorMessage);
+        }
+
         yield put(deleteIdeaFailure(errorMessage));
     }
 }

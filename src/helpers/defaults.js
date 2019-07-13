@@ -8,6 +8,7 @@ export const settingsScreenName = "Settings";
 export const ideaFeedsScreenName = "IdeaFeeds";
 export const jwtKey = "jwtToken";
 export const unProtectedScreens = [homeScreenName, loginScreenName, signupScreenName];
+export const protectedScreens = [ideaFeedsScreenName, settingsScreenName, ideasScreenName];
 export const loginFailureMessage = "invalid credentials!";
 export const confidenceRatingTitle = "confidence";
 export const easeRatingTitle = "ease";
