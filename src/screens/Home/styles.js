@@ -6,7 +6,6 @@ const homePageStyles = StyleSheet.create({
         flex: 1,
 		justifyContent: 'flex-start',
         alignItems: 'center',
-        // fontFamily: 'vince',
         borderColor: 'red',
         borderWidth: 1,
         backgroundColor: 'transparent'
@@ -24,25 +23,25 @@ const homePageStyles = StyleSheet.create({
     content: {
         flexBasis: '100%',
         justifyContent: 'center',
-        // alignItems: '',
-        // borderColor: 'blue',
-        // borderWidth: 1,
         width: '100%',
-        // height: '100%',
     },
     title: {
         fontFamily: 'vince',
         fontSize: 30,
         color: generalStyles.whiteColor.color
     },
+    introContainer: {
+        marginBottom: 10,
+        marginTop: 0,
+        borderWidth: 0,
+        borderColor: 'red',
+        width: '100%', alignItems: 'flex-end',
+        padding: 10
+    },
     intro: {
         fontFamily: 'vince',
-        fontSize: 60,
+        fontSize: 80,
         color: generalStyles.whiteColor.color
-    },
-    button: {
-        fontSize: 42, 
-        // backgroundColor: 'red',
     }
 });
 

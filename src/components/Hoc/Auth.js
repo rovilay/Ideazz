@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { ActivityIndicator, AsyncStorage } from 'react-native';
 
 import Layout from "../Layout";
-import { authenticateScreen, userDetails, fontLoader } from "../../helpers/utils";
+import { authenticateScreen, getUserDetails, fontLoader } from "../../helpers/utils";
 import { logInUserSuccess, logInUserFailure } from '../../redux/actionCreators/userActions';
 import { jwtKey } from '../../helpers/defaults';
 import {
@@ -30,7 +30,7 @@ export default function(Screen) {
         }
 
         async componentDidMount() {
-            const userData = await userDetails();
+            const userData = await getUserDetails();
             if (userData.isAuthenticated) {
                 this.props.logInUserSuccess(userData);
             } else {

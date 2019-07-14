@@ -15,6 +15,13 @@ export function navigate(routeName, params) {
     }
 }
 
+export function push(routeName, params) {
+    if (config.navigator && routeName) {
+        // const action = NavigationActions.push({ routeName, params });
+        config.navigator.push(routeName);
+    }
+}
+
 export function goBack() {
     if (config.navigator) {
         const action = NavigationActions.back({});

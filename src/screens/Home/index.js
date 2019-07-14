@@ -1,21 +1,34 @@
-import React, { Fragment } from "react";
-import { connect } from 'react-redux';
-import { View, ImageBackground } from "react-native";
+import React, { useEffect } from "react";
+import { View, ImageBackground, ActivityIndicator } from "react-native";
 import PropTypes from 'prop-types';
 
-import CustomButton from "../../components/CustomButton";
+import Layout from "../../components/Layout";
 import Text from "../../components/CustomText";
 import generalStyles from "../../components/generalStyles";
 import homePageStyles from "./styles";
-import { loginScreenName } from "../../helpers/defaults";
-import { handleNavigation } from "../../helpers/utils";
+import { loginScreenName, ideaFeedsScreenName } from "../../helpers/defaults";
+import { handleNavigation, getUserDetails } from "../../helpers/utils";
+
+const delayAuth = 1000;
 
 const HomeScreen = (props) => {
-    const { utils: { fontLoaded }, navigation} = props;
+    const { navigation } = props;
 
-    const handleLoginButton = () => {
-        handleNavigation(loginScreenName);
-    };
+    useEffect(() => {
+        setTimeout(() => {
+            checkAuth();
+        }, delayAuth);
+    }, []);
+
+    const checkAuth = async () => {
+        const user = await getUserDetails();
+
+        if (user.isAuthenticated) {
+            handleNavigation(ideaFeedsScreenName);
+        } else {
+            handleNavigation(loginScreenName);
+        }
+    }
 
     const renderScreen = () => {
         return (
@@ -24,33 +37,11 @@ const HomeScreen = (props) => {
             >
                 <View style={generalStyles.overlay}>
                     <View style={homePageStyles.content}>
-                        <View style={{ 
-                            marginBottom: 10, marginTop: 0, borderWidth: 0,
-                            borderColor: 'red',
-                            width: '100%', alignItems: 'flex-end',
-                            padding: 10
-                        }}>
-                            <Text fontLoaded={fontLoaded} 
-                                customStyles={homePageStyles.intro}>Think</Text>
-                            <Text fontLoaded={fontLoaded} 
-                                customStyles={homePageStyles.intro}>Analyze</Text>
-                            <Text fontLoaded={fontLoaded} 
-                                customStyles={homePageStyles.intro}>Do</Text>
-                        </View>
-                        <View style={{ padding: 10 }}>
-                            <CustomButton
-                                title="Log in"
-                                handleButtonPress={handleLoginButton}
-                                customStyles={{
-                                    alignSelf: 'flex-end',
-                                    justifyContent: 'center', padding: 5, 
-                                    paddingLeft: 30, paddingRight: 30,
-                                }}
-                                customTextStyles={{  
-                                    textAlign: 'center', fontFamily: 'vince',
-                                    fontSize: 24
-                                }}
-                            />
+                        <ActivityIndicator />
+                        <View style={homePageStyles.introContainer}>
+                            <Text customStyles={homePageStyles.intro}>Think</Text>
+                            <Text customStyles={homePageStyles.intro}>Analyze</Text>
+                            <Text customStyles={homePageStyles.intro}>Do</Text>
                         </View>
                     </View>
                 </View>
@@ -59,18 +50,15 @@ const HomeScreen = (props) => {
     }
 
     return (
-            <Fragment>
+
+            <Layout navigation={navigation}>
                 {renderScreen()}
-            </Fragment>
+            </Layout>
     );
 }
 
 HomeScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
-    utils: PropTypes.object.isRequired
 };
 
-
-export const mapStateToProps = ({ utils }) => ({ utils });
-
-export default connect(mapStateToProps, {})(HomeScreen);
+export default HomeScreen;

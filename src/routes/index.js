@@ -47,11 +47,11 @@ const a = createStackNavigator({
 const b = createStackNavigator({
     e: {
         screen: AuthenticateScreen(CreateIdeasScreen),
-        params: { view: 'create' },
+        // params: { view: 'create' },
     }
 }, {
     defaultNavigationOptions: ({ navigation }) => {
-        const routeName = navigation.getParam('view', 'ogo');
+        const routeName = navigation.getParam('view', 'create');
 
         return {
             header: <Header
@@ -187,7 +187,7 @@ const Tabs = createBottomTabNavigator({
 const Root = createStackNavigator({
     Tabs,
     [homeScreenName]: {
-        screen: AuthenticateScreen(HomeScreen),
+        screen: HomeScreen,
         headerMode: 'none',
         navigationOptions: {
             tabBarVisible: false

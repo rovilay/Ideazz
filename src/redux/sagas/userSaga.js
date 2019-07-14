@@ -1,6 +1,6 @@
 import { put, takeLatest, call  } from 'redux-saga/effects';
 
-import { userDetails, apiErrorHandler } from '../../helpers/utils';
+import { getUserDetails, apiErrorHandler } from '../../helpers/utils';
 import { ideaFeedsScreenName } from '../../helpers/defaults';
 import * as NavigationService from '../../services/NavigationService';
 import UserAPI from '../../services/UserAPI';
@@ -20,7 +20,7 @@ export function* watchSignUpUserSagaAsync() {
 export function* signUpUserSagaAsync(action) {
     try {
         const response = yield call(UserAPI.signUpUser, action.userData);
-        const userData = yield userDetails(response.data.token);
+        const userData = yield getUserDetails(response.data.token);
         yield put(signUpUserSuccess(userData));
         NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
@@ -43,7 +43,7 @@ export function* watchLogInUserSagaAsync() {
 export function* logInUserSagaAsync(action) {
     try {
         const response = yield call(UserAPI.logInUser, action.userData);
-        const userData = yield userDetails(response.data.token);
+        const userData = yield getUserDetails(response.data.token);
         yield put(logInUserSuccess(userData));
         NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {

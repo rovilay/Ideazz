@@ -44,10 +44,10 @@ export const getAuthPageAttributes = (routeName) => {
     return { pageTitle, currentAuth, otherAuth, promptMsg };
 }
 
-export const userDetails = async (tokn)  => {
+export const getUserDetails = async (tokn)  => {
     const token = tokn || await AsyncStorage.getItem(jwtKey);
     const userData = token ? jwtDecode(token) : null;
-    const isAuthenticated = userData ? true : false;
+    const isAuthenticated = userData && !isExpired(userData.exp) ? true : false;
 
     if (tokn && isAuthenticated) {
         await AsyncStorage.setItem(jwtKey, tokn);
@@ -67,11 +67,10 @@ export const authenticateScreen = async (navigationProp) => {
     const userData = token ? jwtDecode(token) : null;
     const expiredUser = userData && isExpired(userData.exp);
     if ((!userData  || expiredUser) && 
-        !unProtectedScreens.includes(routeName) &&
-        routeName !== homeScreenName
+        !unProtectedScreens.includes(routeName)
     ) {
         await AsyncStorage.removeItem(jwtKey);
-        NavigationService.navigate(homeScreenName, { view: 'ideas' });
+        NavigationService.navigate(loginScreenName, { view: 'ideas' });
     } else if (unProtectedScreens.includes(routeName) &&
         userData && !expiredUser &&
         routeName !== ideaFeedsScreenName
@@ -81,7 +80,7 @@ export const authenticateScreen = async (navigationProp) => {
 }
 
 export const getInitialRouteName = async () => {
-    const userData = await userDetails();
+    const userData = await getUserDetails();
     const expiredUser = userData && isExpired(userData.exp);
 
     if (!userData  || expiredUser) {

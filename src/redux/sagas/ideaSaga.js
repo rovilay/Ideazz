@@ -46,13 +46,10 @@ export function* watchEditIdeaSagaAsync() {
 
 export function* editIdeaSagaAsync() {
     try {
+        // NavigationService.push(ideasScreenName, { view: 'update' });
         NavigationService.navigate(ideasScreenName, { view: 'update' });
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
-
-        if (errorMessage.includes('network')) {
-            alert(errorMessage);
-        }
 
         yield put(updateIdeaFailure(errorMessage));
     }
@@ -93,9 +90,9 @@ export function* getAllIdeasSagaAsync(action) {
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
 
-        // if (errorMessage.includes('network')) {
-        //     alert(errorMessage);
-        // }
+        if (errorMessage.includes('network')) {
+            alert(errorMessage);
+        }
 
         yield put(getAllIdeasFailure(errorMessage));
     }
