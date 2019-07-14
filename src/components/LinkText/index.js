@@ -11,19 +11,15 @@ const LinkText = (props) => {
     } = props;
 
     const renderText = () => {
-        if (fontLoaded) {
-            return (
-                <Hyperlink {...props} onPress={onPress}>
-                    <Text {...props} customStyles={customStyles}
-                        fontLoaded={fontLoaded}
-                    >
-                        {children}
-                    </Text>
-              </Hyperlink>
-            );
-        }
-
-        return null;
+        return (
+            <Hyperlink {...props} onPress={onPress}>
+                <Text {...props} customStyles={customStyles}
+                    fontLoaded={fontLoaded}
+                >
+                    {children}
+                </Text>
+            </Hyperlink>
+        );
     }
     
     return renderText();

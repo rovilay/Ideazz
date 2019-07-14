@@ -10,18 +10,18 @@ import Text from "../../components/CustomText";
 import Layout from '../../components/Layout';
 import authPagesStyles from "./styles";
 import generalStyles from "../../components/generalStyles";
-import { emailRegx, nameRegx, signupScreenName, loginScreenName } from "../../helpers/defaults";
+import { emailRegx, nameRegx, signupScreenName } from "../../helpers/defaults";
 import LinkText from '../../components/LinkText';
 import { signUpUser, logInUser } from '../../redux/actionCreators/userActions';
 
 const AuthScreen = (props) => {
-    const { 
-        utils: { fontLoaded }, navigation, 
+    const { navigation, 
         isLoading, signUpUser, logInUser,
         authError
     } = props;
     
     const { routeName } = navigation.state;
+
     const [formFields, setFormFields] = useState({
         name: {
             valid: false,
@@ -183,12 +183,10 @@ const AuthScreen = (props) => {
         });
     };
 
-    const {
-        pageTitle, otherAuth, promptMsg, currentAuth 
-    } = getAuthPageAttributes(routeName);
-    
+    const { otherAuth, promptMsg, currentAuth } = getAuthPageAttributes(routeName);
+
     const handlePromptClick = () => {
-        handleNavigation(props.navigation, otherAuth);
+        handleNavigation(otherAuth);
     };
 
     const disableSubmit = () => {
@@ -214,19 +212,14 @@ const AuthScreen = (props) => {
         logInUser(userData);
     }
 
-    const pagePostion = currentAuth === signupScreenName ? '10%' : '30%';
+    const pagePostion = currentAuth === signupScreenName ? '0%' : '0%';
 
     const renderForm = () => {
         return (
             <View style={{ ...authPagesStyles.formContainer, marginTop: pagePostion }}>
-                <Text fontLoaded={fontLoaded} 
-                    customStyles={authPagesStyles.title}
-                >
-                    {pageTitle}
-                </Text>
                 <View style={authPagesStyles.form}>
                     {authError.state &&
-                        <Text fontLoaded={fontLoaded} 
+                        <Text
                             customStyles={{ ...authPagesStyles.error, paddingLeft: 10 }}
                         >
                             {authError.message}
@@ -359,8 +352,7 @@ const AuthScreen = (props) => {
                     loading={isLoading}
                     loadingStyle={authPagesStyles.formButton}
                 />
-                <LinkText fontLoaded={fontLoaded}
-                    customStyles={authPagesStyles.prompt}
+                <LinkText customStyles={authPagesStyles.prompt}
                     onPress={handlePromptClick}
                 >
                     {promptMsg}
@@ -380,15 +372,13 @@ const AuthScreen = (props) => {
 
 AuthScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
-    utils: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     signUpUser: PropTypes.func.isRequired,
     logInUser: PropTypes.func.isRequired,
     authError: PropTypes.object.isRequired
 };
 
-export const mapStateToProps = ({ utils, auth }) => ({ 
-    utils,
+export const mapStateToProps = ({ auth }) => ({ 
     isLoading: auth.isLoading,
     authError: auth.errors,
 });

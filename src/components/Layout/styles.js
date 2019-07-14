@@ -15,7 +15,7 @@ const layoutStyle = StyleSheet.create({
         borderBottomColor: 'transparent'
     },
     content: {
-        flexBasis: '85%',
+        flexBasis: '100%',
         justifyContent: 'center',
         fontFamily: 'vince',
         // alignItems: '',

@@ -1,29 +1,23 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { View, AsyncStorage } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import { handleNavigation } from "../../helpers/utils";
 import settingsPageStyles from "./styles";
-import { jwtKey, homeScreenName } from "../../helpers/defaults";
+import { jwtKey, loginScreenName } from "../../helpers/defaults";
 import { signUpUser, logOutUser } from '../../redux/actionCreators/userActions';
 
 const SettingsScreen = (props) => {
-    const { 
-        utils: { fontLoaded }, navigation, 
-        isLoading, signUpUser, logOutUser
-    } = props;
+    const { logOutUser } = props;
     
-    const { routeName } = navigation.state;
-
     const handleLogOut = async () => {
         await AsyncStorage.removeItem(jwtKey);
         axios.defaults.headers.common['Authorization'] = '';
         logOutUser();
-        handleNavigation(navigation, homeScreenName);
+        handleNavigation(loginScreenName);
     }
 
     const renderScreen = () => {
@@ -41,24 +35,19 @@ const SettingsScreen = (props) => {
     }
 
     return (
-        // <Layout navigation={navigation}>
-            <View style={settingsPageStyles.container}>
-                {renderScreen()}
-            </View>
-        // </Layout>
+        <View style={settingsPageStyles.container}>
+            {renderScreen()}
+        </View>
     );
 }
 
 SettingsScreen.propTypes = {
-    navigation: PropTypes.object.isRequired,
-    utils: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     signUpUser: PropTypes.func.isRequired,
     logOutUser: PropTypes.func.isRequired,
 };
 
-export const mapStateToProps = ({ utils, auth }) => ({ 
-    utils,
+export const mapStateToProps = ({ auth }) => ({ 
     isLoading: auth.isLoading 
 });
 const mapDispatchToProps = {

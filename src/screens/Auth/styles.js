@@ -4,7 +4,7 @@ import generalStyles from '../../components/generalStyles';
 const authPagesStyles = StyleSheet.create({
 	container: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
         width:  '100%'
     },

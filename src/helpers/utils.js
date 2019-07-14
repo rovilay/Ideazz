@@ -6,6 +6,7 @@ import {
     loginScreenName, signupScreenName, homeScreenName,
     jwtKey, unProtectedScreens, ideasScreenName, ideaFeedsScreenName,
 } from './defaults';
+import * as NavigationService from '../services/NavigationService';
 
 export const fontLoader = () => {
     return Font.loadAsync({
@@ -13,9 +14,8 @@ export const fontLoader = () => {
     });
 }
 
-export const handleNavigation = (navigationProp, screenName) => {
-    const { navigate } = navigationProp;
-    return navigate(screenName);
+export const handleNavigation = (screenName, params = {}) => {
+   NavigationService.navigate(screenName, params);
 }
 
 export const isExpired = (expiredTimeInSec) => {
@@ -71,12 +71,12 @@ export const authenticateScreen = async (navigationProp) => {
         routeName !== homeScreenName
     ) {
         await AsyncStorage.removeItem(jwtKey);
-        return handleNavigation(navigationProp, homeScreenName);
+        NavigationService.navigate(homeScreenName, { view: 'ideas' });
     } else if (unProtectedScreens.includes(routeName) &&
         userData && !expiredUser &&
         routeName !== ideaFeedsScreenName
     ) {
-        return handleNavigation(navigationProp, ideaFeedsScreenName);
+        NavigationService.navigate(ideaFeedsScreenName, { view: 'feeds' });
     }
 }
 

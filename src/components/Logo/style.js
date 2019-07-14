@@ -5,6 +5,7 @@ const logoStyles = StyleSheet.create({
     title: {
         fontFamily: 'vince',
         fontSize: 40,
+        textTransform: 'uppercase',
         color: generalStyles.whiteColor.color
     }
 });

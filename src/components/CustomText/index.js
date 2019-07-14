@@ -1,36 +1,40 @@
 import React from 'react';
 import { Text } from 'react-native';
-
 import PropTypes from 'prop-types';
 
+import { FontContext } from '../FontLoader';
+
 const CustomText = (props) => {
-    const { 
-        fontLoaded, customStyles,
-        children
-    } = props;
+    const { customStyles, children } = props;
     
     const renderText = () => {
-        if (fontLoaded) {
-            return (
-                <Text {...props} style={{ ...customStyles }}>
-                    {children}
-                </Text>
-            );
-        }
+        return (
+            <FontContext.Consumer>
+                {
+                    (fontLoaded) => {
+                        if (fontLoaded) {
+                            return (
+                                <Text {...props} style={customStyles}>
+                                    {children}
+                                </Text>
+                            );
+                        }
 
-        return null;
+                        return null;
+                    }
+                }
+            </FontContext.Consumer>
+        );
     }
     
     return renderText();
 }
 
 CustomText.propTypes = {
-    fontLoaded: PropTypes.bool,
     customStyles: PropTypes.object,
 };
 
 CustomText.defaultProps = {
-    fontLoaded: true,
     customStyles: {},
 };
 

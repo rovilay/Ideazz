@@ -93,9 +93,9 @@ export function* getAllIdeasSagaAsync(action) {
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
 
-        if (errorMessage.includes('network')) {
-            alert(errorMessage);
-        }
+        // if (errorMessage.includes('network')) {
+        //     alert(errorMessage);
+        // }
 
         yield put(getAllIdeasFailure(errorMessage));
     }
@@ -107,7 +107,6 @@ export function* watchDeleteIdeaSagaAsync() {
 
 export function* deleteIdeaSagaAsync(action) {
     try {
-        console.log(action.ideaId);
         const response = yield call(IdeaAPI.deleteIdea, action.ideaId);
         yield put(deleteIdeaSuccess(action.ideaId));
     } catch (error) {

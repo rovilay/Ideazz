@@ -13,44 +13,34 @@ import {
     loadFontsFailure,
     loadFontsSuccess
 } from '../../redux/actionCreators/utilsActions';
+import * as NavigationService from '../../services/NavigationService';
+import { FontContext } from '../FontLoader';
 
 const Layout = (props) => {
-    const { children, utils: { fontLoaded }, navigation } = props;
+    const { children, navigation } = props;
 
     useEffect(() => {
-        const loadFonts = async () => {
-            try {
-                props.loadFonts(false);
-                await fontLoader();
-                props.loadFontsSuccess(true);
-            } catch (error) {
-                props.loadFontsFailure(false);
-            }
-        }
-
-        loadFonts();
+        NavigationService.setNavigator(navigation);
     }, []);
 
     return (
         <View style={layoutStyle.container}>
-            {fontLoaded ?
-                <React.Fragment>
-                    <Header
-                        // placement="left"
-                        centerComponent={<Logo 
-                            fontLoaded={fontLoaded} 
-                        />}
-                        // rightComponent={<Hamburger fontLoaded={fontLoaded} />}
-                        statusBarProps={{ barStyle: 'light-content' }}
-                        containerStyle={layoutStyle.header}
-                    />
-                    <View style={layoutStyle.content}>
-                        {children}
-                    </View>
-                </React.Fragment> : <ActivityIndicator />
-            }
+            <FontContext.Consumer>
+                {
+                    (fontLoaded) => {
+                        if (fontLoaded) {
+                            return (
+                                <View style={layoutStyle.content}>
+                                    {children}
+                                </View>
+                            );
+                        }
 
-        </View>
+                        return <ActivityIndicator />;
+                    }
+                }
+            </FontContext.Consumer>
+        </View>        
     );
 }
 

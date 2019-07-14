@@ -14,7 +14,7 @@ const HomeScreen = (props) => {
     const { utils: { fontLoaded }, navigation} = props;
 
     const handleLoginButton = () => {
-        handleNavigation(navigation, loginScreenName);
+        handleNavigation(loginScreenName);
     };
 
     const renderScreen = () => {

@@ -22,7 +22,7 @@ export function* signUpUserSagaAsync(action) {
         const response = yield call(UserAPI.signUpUser, action.userData);
         const userData = yield userDetails(response.data.token);
         yield put(signUpUserSuccess(userData));
-        NavigationService.navigate(ideasScreenName);
+        NavigationService.navigate(ideaFeedsScreenName);
     } catch (error) {
         const errorMessage = apiErrorHandler(error);
         let showError = true;

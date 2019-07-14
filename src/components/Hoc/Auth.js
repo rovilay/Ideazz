@@ -13,6 +13,7 @@ import {
     loadFontsFailure,
     loadFontsSuccess
 } from '../../redux/actionCreators/utilsActions';
+import FontProvider from '../FontLoader';
 
 export default function(Screen) {
     class AuthenticateScreen extends Component {
@@ -50,13 +51,15 @@ export default function(Screen) {
 
         render() {
             return (
-                <Layout navigation={this.props.navigation}>
-                    {this.state.isAuthenticating ?
-                        <ActivityIndicator />
-                        :
-                        <Screen navigation={this.props.navigation} />
-                    }
-                </Layout>
+                // <FontProvider>
+                    <Layout navigation={this.props.navigation}>
+                        {this.state.isAuthenticating ?
+                            <ActivityIndicator />
+                            :
+                            <Screen navigation={this.props.navigation} />
+                        }
+                    </Layout>
+                // </FontProvider>
             );
         }
     }
