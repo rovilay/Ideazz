@@ -14,7 +14,9 @@ const CustomText = (props) => {
                     (fontLoaded) => {
                         if (fontLoaded) {
                             return (
-                                <Text {...props} style={customStyles}>
+                                <Text {...props} 
+                                    style={{ fontFamily: 'vince', ...customStyles }}
+                                >
                                     {children}
                                 </Text>
                             );

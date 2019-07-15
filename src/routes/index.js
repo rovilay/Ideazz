@@ -20,75 +20,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import generalStyles from '../components/generalStyles';
 import Logo from '../components/Logo';
-
-
-const a = createStackNavigator({
-    d: {
-        screen: AuthenticateScreen(IdeaFeedsScreen),
-        params: { view: 'feeds' },
-        navigationOptions: ({ navigation }) => {
-            const routeName = navigation.getParam('view', 'ogo');
-    
-            return {
-                header: <Header
-                        centerComponent={<Logo title={routeName} />}
-                        statusBarProps={{ barStyle: 'light-content' }}
-                        containerStyle={{
-                            height: '100%',
-                            borderBottomColor: 'transparent',
-                            backgroundColor: generalStyles.defaultColor.color
-                        }}
-                    />,
-            }
-        }
-    }
-});
-
-const b = createStackNavigator({
-    e: {
-        screen: AuthenticateScreen(CreateIdeasScreen),
-        // params: { view: 'create' },
-    }
-}, {
-    defaultNavigationOptions: ({ navigation }) => {
-        const routeName = navigation.getParam('view', 'create');
-
-        return {
-            header: <Header
-                    centerComponent={<Logo title={routeName} />}
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    containerStyle={{
-                        height: '100%',
-                        borderBottomColor: 'transparent',
-                        backgroundColor: generalStyles.defaultColor.color
-                    }}
-                />,
-        }
-    }
-});
-
-const c = createStackNavigator({
-    f: {
-    screen: AuthenticateScreen(SettingsScreen),
-    params: { view: 'Bye' },
- }
-}, {
-    defaultNavigationOptions: ({ navigation }) => {
-        const routeName = navigation.getParam('view');
-
-        return {
-            header: <Header
-                    centerComponent={<Logo title={routeName} />}
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    containerStyle={{
-                        height: '100%',
-                        borderBottomColor: 'transparent',
-                        backgroundColor: generalStyles.defaultColor.color
-                    }}
-                />,
-        }
-    }
-});
+import SortMenu from '../components/SortMenu';
 
 const signup = createStackNavigator({ 
     [signupScreenName]: {
@@ -136,54 +68,6 @@ const login = createStackNavigator({
     }  
 });
 
-const Tabs = createBottomTabNavigator({
-    [ideaFeedsScreenName]: {
-        screen: a,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => {
-                return <Icon name="format-list-bulleted" color={tintColor} size={24} /> 
-            },
-        }
-    },
-    [ideasScreenName]: {
-        screen: b,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => {
-                return <Icon name="lightbulb-on" color={tintColor} size={24} />  
-            },
-        }
-    },
-    [settingsScreenName]:{
-        screen: c,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => {
-                return <Icon name="logout" color={tintColor} size={24} /> 
-            },
-        }
-    }
-}, {
-    defaultNavigationOptions: ({ navigation }) => {
-        const routeName = navigation.getParam('view', 'ideas');
-
-        return {
-            header: <Header
-                    centerComponent={<Logo title={routeName} />}
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    containerStyle={{
-                        height: '100%',
-                        borderBottomColor: 'transparent',
-                        backgroundColor: generalStyles.defaultColor.color
-                    }}
-                />,
-            tabBarOptions: {
-                activeTintColor: generalStyles.defaultColor.color,
-                inactiveTintColor: generalStyles.disabledColor.color,
-                showLabel: false
-            }
-        }
-    },
-});
-
 const ideaStack = createStackNavigator({
     [createIdeaScreenName]: {
         screen: AuthenticateScreen(CreateIdeasScreen),
@@ -194,12 +78,67 @@ const ideaStack = createStackNavigator({
         params: { view: updateIdeaScreenName }
     },
 }, {
-    headerMode: 'none',
+    defaultNavigationOptions: ({ navigation }) => {
+        return {
+            header: <Header
+                    centerComponent={<Logo title={'ideas'} />}
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    containerStyle={{
+                        height: '100%',
+                        borderBottomColor: 'transparent',
+                        backgroundColor: generalStyles.defaultColor.color
+                    }}
+                />
+        }
+    },
+});
+
+const ideaFeedStack = createStackNavigator({
+    [ideaFeedsScreenName]: {
+        screen: AuthenticateScreen(IdeaFeedsScreen),
+        navigationOptions: ({ navigation }) => {
+            const view = navigation.getParam('view', 'ideas');
+    
+            return {
+                header: <Header
+                        centerComponent={<Logo title={view} />}
+                        rightComponent={<SortMenu />}
+                        statusBarProps={{ barStyle: 'light-content' }}
+                        containerStyle={{
+                            height: '100%',
+                            borderBottomColor: 'transparent',
+                            backgroundColor: generalStyles.defaultColor.color
+                        }}
+                    />
+            }
+        }
+    },
+});
+
+const settingsStack = createStackNavigator({
+    [settingsScreenName]:{
+        screen: AuthenticateScreen(SettingsScreen),
+        navigationOptions: ({ navigation }) => {
+            const view = navigation.getParam('view', 'ideas');
+    
+            return {
+                header: <Header
+                        centerComponent={<Logo title={view} />}
+                        statusBarProps={{ barStyle: 'light-content' }}
+                        containerStyle={{
+                            height: '100%',
+                            borderBottomColor: 'transparent',
+                            backgroundColor: generalStyles.defaultColor.color
+                        }}
+                    />
+            }
+        }
+    }
 })
 
 const TabsNavigator = createBottomTabNavigator({
-    [ideaFeedsScreenName]: {
-        screen: AuthenticateScreen(IdeaFeedsScreen),
+    ideaFeedStack: {
+        screen: ideaFeedStack,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => {
                 return <Icon name="format-list-bulleted" color={tintColor} size={24} /> 
@@ -214,8 +153,8 @@ const TabsNavigator = createBottomTabNavigator({
             },
         }
     },
-    [settingsScreenName]:{
-        screen: AuthenticateScreen(SettingsScreen),
+    settingsStack: {
+        screen: settingsStack,
         navigationOptions: {
             tabBarIcon: ({ tintColor }) => {
                 return <Icon name="logout" color={tintColor} size={24} /> 
@@ -232,30 +171,9 @@ const TabsNavigator = createBottomTabNavigator({
     },
 })
 
-const AuthStack = createStackNavigator({
-    TabsNavigator
-},  {
-    defaultNavigationOptions: ({ navigation }) => {
-        const routeName = navigation.getParam('view', 'ideas');
-
-        return {
-            header: <Header
-                    centerComponent={<Logo title={routeName} />}
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    containerStyle={{
-                        height: '100%',
-                        borderBottomColor: 'transparent',
-                        backgroundColor: generalStyles.defaultColor.color
-                    }}
-                />
-        }
-    },
-});
-
-
 
 const Root = createStackNavigator({
-    AuthStack,
+    TabsNavigator,
     [homeScreenName]: {
         screen: HomeScreen,
         headerMode: 'none',
