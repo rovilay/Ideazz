@@ -26,7 +26,7 @@ const SortMenu = (props) => {
     const { 
         navigation, isLoading, getAllIdeas, deleteIdea,
         limit, offset, total, openModal, closeModal,
-        editIdea
+        editIdea, currentSortOption
     } = props;
 
     useEffect(() => {
@@ -34,6 +34,30 @@ const SortMenu = (props) => {
         //     getAllIdeas();
         // }
     }, []);
+
+    // useEffect(() => {
+    //     console.log('here1111')
+    //     if (!newSort && !ideas.length || ideas.length < total) {
+    //         console.log('here here')
+    //         getAllIdeas(limit, offset, currentSortOption);
+    //     }
+    // }, []);
+
+    const handleSortOptionClick = (sortOptionValue) => {
+        getAllIdeas(limit, 0, sortOptionValue);
+    }
+
+    const getMenuOptionStyle = (sortOptionValue) => {
+        const backgroundStyle = { backgroundColor: generalStyles.whiteColor.color };
+        const textStyle = { color: generalStyles.blackColor.color };
+
+        if (currentSortOption === sortOptionValue) {
+            backgroundStyle.backgroundColor = generalStyles.defaultColor.color;
+            textStyle.color = generalStyles.whiteColor.color;
+        }
+
+        return { backgroundStyle, textStyle }
+    }
 
 
     const renderSortOptionsMenu = () => {
@@ -51,16 +75,19 @@ const SortMenu = (props) => {
                         optionsContainer: { width: "auto" },
                     }}>
                         {sortOptions.map((option, index) => {
+                            const { backgroundStyle, textStyle } = getMenuOptionStyle(option.value);
+
                             return (
-                                <MenuOption style={{ margin: 5 }}
-                                    onSelect={() => console.log(option, "selected")}
+                                <MenuOption style={{ margin: 5, ...backgroundStyle }}
+                                    onSelect={() => handleSortOptionClick(option.value)}
                                     key={index} 
                                 >
                                     <Text customStyles={{ 
                                         textTransform: "capitalize",
-                                        fontSize: 20 
+                                        fontSize: 20,
+                                        ...textStyle
                                     }}>
-                                        {option}
+                                        {option.name}
                                     </Text>
                                 </MenuOption>
                             );
@@ -84,6 +111,7 @@ SortMenu.propTypes = {
     offset: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
     getAllIdeas: PropTypes.func.isRequired,
+    currentSortOption: PropTypes.string.isRequired,
 };
 
 export const mapStateToProps = ({ idea }) => ({ 
@@ -91,6 +119,7 @@ export const mapStateToProps = ({ idea }) => ({
     limit: idea.pagination.limit,
     offset: idea.pagination.offset,
     total: idea.pagination.total,
+    currentSortOption: idea.sortOption
 });
 
 const mapDispatchToProps = {

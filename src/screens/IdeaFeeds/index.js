@@ -30,22 +30,25 @@ const IdeaFeeds = (props) => {
     const [ideaOnView, setIdeaOnView] = useState(null);
 
     const { 
-        utils: { modal }, navigation,
+        utils: { modal }, navigation, newSort,
         ideas, isLoading, getAllIdeas, deleteIdea,
         limit, offset, total, openModal, closeModal,
-        editIdea
+        editIdea, currentSortOption
     } = props;
 
     useEffect(() => {
-        if (!ideas.length || ideas.length < total) {
-            getAllIdeas();
+        console.log('here1111')
+        if (!newSort && (!ideas.length || ideas.length < total)) {
+            console.log('here here')
+            getAllIdeas(limit, offset, currentSortOption);
         }
     }, []);
 
     const handleScrollEnd = () => {
-        if (ideas.length < total) {
+        if (ideas.length >= limit && ideas.length < total) {
+            console.log('here222')
             const nextOffset = offset + limit;
-            getAllIdeas(limit, nextOffset);
+            getAllIdeas(limit, nextOffset, currentSortOption);
         }
     }
 
@@ -268,6 +271,8 @@ IdeaFeeds.propTypes = {
     editIdea: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
+    newSort: PropTypes.bool.isRequired,
+    currentSortOption: PropTypes.string.isRequired,
 };
 
 export const mapStateToProps = ({ idea, utils }) => ({ 
@@ -277,6 +282,8 @@ export const mapStateToProps = ({ idea, utils }) => ({
     limit: idea.pagination.limit,
     offset: idea.pagination.offset,
     total: idea.pagination.total,
+    newSort: idea.newSort,
+    currentSortOption: idea.sortOption
 });
 
 const mapDispatchToProps = {

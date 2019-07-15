@@ -17,8 +17,8 @@ class IdeaAPI {
         return axios.get(`${baseUrl}/ideas/${ideaId}`);
     }
 
-    static getAllIdeas({ limit, offset }) {
-        return axios.get(`${baseUrl}/ideas?limit=${limit}&offset=${offset}`);
+    static getAllIdeas({ limit, offset, sort }) {
+        return axios.get(`${baseUrl}/ideas?limit=${limit}&offset=${offset}&sort=${sort}`);
     }
 
     static deleteIdea(ideaId) {

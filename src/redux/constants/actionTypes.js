@@ -33,3 +33,4 @@ export const GET_IDEA = "GET_IDEA";
 export const DELETE_IDEA = "DELETE_IDEA";
 export const DELETE_IDEA_SUCCESS = "DELETE_IDEA_SUCCESS";
 export const DELETE_IDEA_FAILURE = "DELETE_IDEA_FAILURE";
+export const SORT_IDEAS = "SORT_IDEAS";

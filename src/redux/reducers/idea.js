@@ -14,15 +14,18 @@ import {
     DELETE_IDEA_SUCCESS,
     DELETE_IDEA_FAILURE,
     LOG_OUT_USER,
-    REMOVE_IDEA_ON_FOCUS
+    REMOVE_IDEA_ON_FOCUS,
+    SORT_IDEAS
 } from '../constants/actionTypes';
-import { limit } from '../../helpers/defaults';
+import { limit, sortOption1 } from '../../helpers/defaults';
 
 
 const initialState = {
     ideas: [],
     ideaOnFocus: {},
     isLoading: false,
+    sortOption: sortOption1.value,
+    newSort: false,
     errors: {
         message: '',
         errors: [],
@@ -106,12 +109,14 @@ const idea = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: true,
+                sortOption: action.options.sort,
+                newSort: action.options.sort !== state.sortOption
             };
         case GET_ALL_IDEAS_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                ideas: [...state.ideas, ...action.ideas],
+                ideas: state.newSort ? action.ideas : [...state.ideas, ...action.ideas],
                 pagination: {...action.pagination},
                 errors: initialState.errors,
                 ideaOnFocus: initialState.ideaOnFocus
@@ -148,6 +153,11 @@ const idea = (state = initialState, action) => {
                     errors: action.error,
                     state: true,
                 },
+            };
+        case SORT_IDEAS:
+            return {
+                ...state,
+                sortOption: action.sortOption,
             };
         case LOG_OUT_USER:
             return {

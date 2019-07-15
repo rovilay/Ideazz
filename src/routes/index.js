@@ -171,7 +171,6 @@ const TabsNavigator = createBottomTabNavigator({
     },
 })
 
-
 const Root = createStackNavigator({
     TabsNavigator,
     [homeScreenName]: {

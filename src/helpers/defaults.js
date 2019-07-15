@@ -11,10 +11,22 @@ export const ideaFeedsScreenName = "IdeaFeeds";
 export const jwtKey = "jwtToken";
 export const unProtectedScreens = [homeScreenName, loginScreenName, signupScreenName];
 export const protectedScreens = [ideaFeedsScreenName, settingsScreenName, ideasScreenName];
-export const sortOption1 = "average rating";
-export const sortOption2 = "title";
-export const sortOption3 = "date created";
-export const sortOption4 = "date updated";
+export const sortOption1 = {
+    name: "average rating",
+    value: "average"
+};
+export const sortOption2 = {
+    name: "title",
+    value: "title"
+};
+export const sortOption3 = {
+    name: "date created",
+    value: "createdAt"
+};
+export const sortOption4 = {
+    name: "date updated",
+    value: "updatedAt"
+};
 export const sortOptions = [sortOption1, sortOption2, sortOption3, sortOption4];
 export const loginFailureMessage = "invalid credentials!";
 export const confidenceRatingTitle = "confidence";
