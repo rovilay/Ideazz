@@ -9,7 +9,7 @@ import homePageStyles from "./styles";
 import { loginScreenName, ideaFeedsScreenName } from "../../helpers/defaults";
 import { handleNavigation, getUserDetails } from "../../helpers/utils";
 
-const delayAuth = 1000;
+const delayAuth = 2000;
 
 const HomeScreen = (props) => {
     const { navigation } = props;

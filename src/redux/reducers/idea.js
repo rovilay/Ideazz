@@ -13,7 +13,8 @@ import {
     DELETE_IDEA,
     DELETE_IDEA_SUCCESS,
     DELETE_IDEA_FAILURE,
-    LOG_OUT_USER
+    LOG_OUT_USER,
+    REMOVE_IDEA_ON_FOCUS
 } from '../constants/actionTypes';
 import { limit } from '../../helpers/defaults';
 
@@ -66,6 +67,12 @@ const idea = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 ideaOnFocus: state.ideas.find(idea => idea.id === action.ideaId)
+            };
+        case REMOVE_IDEA_ON_FOCUS:
+            return { 
+                ...state,
+                isLoading: false,
+                ideaOnFocus: initialState.ideaOnFocus
             };
         case UPDATE_IDEA:
             return { ...state, isLoading: true };

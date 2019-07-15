@@ -14,7 +14,8 @@ import IdeaFeedsScreen from '../screens/IdeaFeeds';
 import SettingsScreen from '../screens/Settings';
 import {
     loginScreenName, signupScreenName, ideaFeedsScreenName,
-    homeScreenName, ideasScreenName, settingsScreenName
+    homeScreenName, ideasScreenName, settingsScreenName,
+    createIdeaScreenName, updateIdeaScreenName
 } from '../helpers/defaults';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import generalStyles from '../components/generalStyles';
@@ -25,21 +26,20 @@ const a = createStackNavigator({
     d: {
         screen: AuthenticateScreen(IdeaFeedsScreen),
         params: { view: 'feeds' },
-    }
-}, {
-    defaultNavigationOptions: ({ navigation }) => {
-        const routeName = navigation.getParam('view', 'ogo');
-
-        return {
-            header: <Header
-                    centerComponent={<Logo title={routeName} />}
-                    statusBarProps={{ barStyle: 'light-content' }}
-                    containerStyle={{
-                        height: '100%',
-                        borderBottomColor: 'transparent',
-                        backgroundColor: generalStyles.defaultColor.color
-                    }}
-                />,
+        navigationOptions: ({ navigation }) => {
+            const routeName = navigation.getParam('view', 'ogo');
+    
+            return {
+                header: <Header
+                        centerComponent={<Logo title={routeName} />}
+                        statusBarProps={{ barStyle: 'light-content' }}
+                        containerStyle={{
+                            height: '100%',
+                            borderBottomColor: 'transparent',
+                            backgroundColor: generalStyles.defaultColor.color
+                        }}
+                    />,
+            }
         }
     }
 });
@@ -182,10 +182,80 @@ const Tabs = createBottomTabNavigator({
             }
         }
     },
+});
+
+const ideaStack = createStackNavigator({
+    [createIdeaScreenName]: {
+        screen: AuthenticateScreen(CreateIdeasScreen),
+        params: { view: createIdeaScreenName }
+    },
+    [updateIdeaScreenName]: {
+        screen: AuthenticateScreen(CreateIdeasScreen),
+        params: { view: updateIdeaScreenName }
+    },
+}, {
+    headerMode: 'none',
 })
 
+const TabsNavigator = createBottomTabNavigator({
+    [ideaFeedsScreenName]: {
+        screen: AuthenticateScreen(IdeaFeedsScreen),
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => {
+                return <Icon name="format-list-bulleted" color={tintColor} size={24} /> 
+            },
+        }
+    },
+    ideaStack: {
+        screen: ideaStack,
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => {
+                return <Icon name="lightbulb-on" color={tintColor} size={24} />  
+            },
+        }
+    },
+    [settingsScreenName]:{
+        screen: AuthenticateScreen(SettingsScreen),
+        navigationOptions: {
+            tabBarIcon: ({ tintColor }) => {
+                return <Icon name="logout" color={tintColor} size={24} /> 
+            },
+        }
+    }
+}, {
+    defaultNavigationOptions: {
+        tabBarOptions: {
+            activeTintColor: generalStyles.defaultColor.color,
+            inactiveTintColor: generalStyles.disabledColor.color,
+            showLabel: false
+        }
+    },
+})
+
+const AuthStack = createStackNavigator({
+    TabsNavigator
+},  {
+    defaultNavigationOptions: ({ navigation }) => {
+        const routeName = navigation.getParam('view', 'ideas');
+
+        return {
+            header: <Header
+                    centerComponent={<Logo title={routeName} />}
+                    statusBarProps={{ barStyle: 'light-content' }}
+                    containerStyle={{
+                        height: '100%',
+                        borderBottomColor: 'transparent',
+                        backgroundColor: generalStyles.defaultColor.color
+                    }}
+                />
+        }
+    },
+});
+
+
+
 const Root = createStackNavigator({
-    Tabs,
+    AuthStack,
     [homeScreenName]: {
         screen: HomeScreen,
         headerMode: 'none',

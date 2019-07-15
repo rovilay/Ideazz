@@ -21,13 +21,11 @@ export default function(Screen) {
             isAuthenticating: false
         }
 
-        async componentWillMount() {
-            this.props.navigation.addListener(
-                'willFocus', async () => {
-                    await authenticateScreen(this.props.navigation);
-                }
-            );
-        }
+        willFocusEvent = this.props.navigation.addListener(
+            'willFocus', async () => {
+                await authenticateScreen(this.props.navigation);
+            }
+        );
 
         async componentDidMount() {
             const userData = await getUserDetails();
@@ -36,6 +34,10 @@ export default function(Screen) {
             } else {
                 this.props.logInUserFailure("invalid token", false);
             }
+        }
+
+        componentWillUnmount() {
+            this.willFocusEvent.remove();
         }
 
         loadFonts = async () => {
@@ -51,7 +53,6 @@ export default function(Screen) {
 
         render() {
             return (
-                // <FontProvider>
                     <Layout navigation={this.props.navigation}>
                         {this.state.isAuthenticating ?
                             <ActivityIndicator />
@@ -59,7 +60,6 @@ export default function(Screen) {
                             <Screen navigation={this.props.navigation} />
                         }
                     </Layout>
-                // </FontProvider>
             );
         }
     }

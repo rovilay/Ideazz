@@ -4,7 +4,6 @@ import { all } from 'redux-saga/effects';
 import { watchSignUpUserSagaAsync, watchLogInUserSagaAsync } from './userSaga';
 import {
 	watchCreateIdeaSagaAsync,
-	watchEditIdeaSagaAsync,
 	watchUpdateIdeaSagaAsync,
 	watchGetAllIdeasSagaAsync,
 	watchDeleteIdeaSagaAsync
@@ -15,7 +14,6 @@ function* rootSaga() {
 		watchSignUpUserSagaAsync(),
 		watchLogInUserSagaAsync(),
 		watchUpdateIdeaSagaAsync(),
-		watchEditIdeaSagaAsync(),
 		watchCreateIdeaSagaAsync(),
 		watchGetAllIdeasSagaAsync(),
 		watchDeleteIdeaSagaAsync()

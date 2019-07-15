@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import { View } from "react-native";
 import { Input, Button, Slider } from 'react-native-elements';
@@ -9,20 +9,21 @@ import Text from "../../components/CustomText";
 import generalStyles from "../../components/generalStyles";
 import ideasScreenStyles from "./styles";
 import { 
-    confidenceRatingTitle, easeRatingTitle,
+    confidenceRatingTitle, easeRatingTitle, createIdeaScreenName,
     impactRatingTitle, minimumRating, maximumRating
 } from "../../helpers/defaults";
-import { createIdea, updateIdea } from '../../redux/actionCreators/ideaActions';
+import { 
+    createIdea, updateIdea,
+    removeIdeaOnFocus 
+} from '../../redux/actionCreators/ideaActions';
 
 const IdeasScreen = (props) => {
-    const { 
-        utils: { fontLoaded }, ideaOnFocus,
-        createIdea, updateIdea, isLoading, navigation
+    const {
+        ideaOnFocus, updateIdea, isLoading,
+        navigation, removeIdeaOnFocus
     } = props;
 
-    const view = navigation.getParam('view', 'create');
-
-    const [ideaForm, setIdeaForm] = useState({
+    const initialFormState = {
         title: {
             valid: false,
             value: ideaOnFocus.title || '',
@@ -43,7 +44,27 @@ const IdeasScreen = (props) => {
             value: ideaOnFocus.impact || 1,
             errorMessage: ''
         },
+    };
+
+    const [ideaForm, setIdeaForm] = useState(initialFormState);
+    const [view, setView] = useState(createIdeaScreenName);
+
+    const willBlurEvent = navigation.addListener('willBlur', () => {
+        removeIdeaOnFocus();
     });
+
+    const willFocusEvent = navigation.addListener('willFocus', () => {
+        setView(navigation.getParam('view', createIdeaScreenName));
+        setIdeaForm(initialFormState);
+    });
+
+    useEffect(() => {
+        // remove event listener when component unmount
+        return () => {
+            willBlurEvent.remove();
+            willFocusEvent.remove();
+        }
+    }, []);
 
     const handleFormChange = (value, field) => {
         const confirmField = {
@@ -80,7 +101,7 @@ const IdeasScreen = (props) => {
             impact: ideaForm.impact.value,
         }
 
-        if (view === 'create') {
+        if (view === createIdeaScreenName) {
             createIdea(idea);
         } else {
             updateIdea(ideaOnFocus.id, idea);
@@ -91,7 +112,7 @@ const IdeasScreen = (props) => {
         return (
             <View style={ideasScreenStyles.rating}>
                 <View>
-                    <Text fontLoaded={fontLoaded} customStyles={ideasScreenStyles.title}>
+                    <Text customStyles={ideasScreenStyles.title}>
                         {rating}: {ideaForm[rating].value}
                     </Text>
                 </View>
@@ -195,6 +216,7 @@ IdeasScreen.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     createIdea: PropTypes.func.isRequired,
     updateIdea: PropTypes.func.isRequired,
+    removeIdeaOnFocus: PropTypes.func.isRequired,
 };
 
 export const mapStateToProps = ({ idea, utils }) => ({ 
@@ -205,7 +227,8 @@ export const mapStateToProps = ({ idea, utils }) => ({
 
 const mapDispatchToProps = {
     createIdea,
-    updateIdea
+    updateIdea,
+    removeIdeaOnFocus
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IdeasScreen);

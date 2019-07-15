@@ -16,19 +16,21 @@ import Text from "../../components/CustomText";
 import generalStyles from "../../components/generalStyles";
 import ideaFeedsStyles from "./styles";
 import {
-    confidenceRatingTitle, impactRatingTitle, easeRatingTitle
+    confidenceRatingTitle, impactRatingTitle, easeRatingTitle,
+    ideasScreenName
 } from "../../helpers/defaults";
 import { 
     getAllIdeas, getIdea, editIdea, deleteIdea 
 } from '../../redux/actionCreators/ideaActions';
 import CustomModal from "../../components/Modal";
 import { closeModal, openModal } from '../../redux/actionCreators/utilsActions';
+import * as NavigationService from '../../services/NavigationService';
 
 const IdeaFeeds = (props) => {
     const [ideaOnView, setIdeaOnView] = useState(null);
 
     const { 
-        utils: { fontLoaded, modal }, navigation,
+        utils: { modal }, navigation,
         ideas, isLoading, getAllIdeas, deleteIdea,
         limit, offset, total, openModal, closeModal,
         editIdea
@@ -59,6 +61,7 @@ const IdeaFeeds = (props) => {
 
     const handleEditIdea = (ideaId) => {
         editIdea(ideaId);
+        NavigationService.navigate('update', { view: 'update' });
     }
 
     const handleViewIdea = (idea) => {
@@ -208,9 +211,7 @@ const IdeaFeeds = (props) => {
                     size={54}
                     color={generalStyles.disabledColor.color}
                 />
-                <Text fontLoaded={fontLoaded}
-                    customStyles={ideaFeedsStyles.noContentText}
-                >
+                <Text customStyles={ideaFeedsStyles.noContentText}>
                     No Ideas!
                 </Text>
             </View>

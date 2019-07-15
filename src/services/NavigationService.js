@@ -1,4 +1,4 @@
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const config = {};
 
@@ -17,8 +17,8 @@ export function navigate(routeName, params) {
 
 export function push(routeName, params) {
     if (config.navigator && routeName) {
-        // const action = NavigationActions.push({ routeName, params });
-        config.navigator.push(routeName);
+        const action = StackActions.push({ routeName, params });
+        config.navigator.dispatch(action);
     }
 }
 

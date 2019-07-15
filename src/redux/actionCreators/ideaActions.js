@@ -21,6 +21,11 @@ export const editIdea = (ideaId) => ({
     ideaId
 });
 
+export const removeIdeaOnFocus = (ideaId) => ({
+    type: types.REMOVE_IDEA_ON_FOCUS,
+    ideaId
+});
+
 export const updateIdea = (ideaId, ideaData) => ({
     type: types.UPDATE_IDEA,
     updateData: {

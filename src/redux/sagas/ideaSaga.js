@@ -40,20 +40,20 @@ export function* createIdeaSagaAsync(action) {
     }
 }
 
-export function* watchEditIdeaSagaAsync() {
-  yield takeLatest(editIdea().type, editIdeaSagaAsync);
-}
+// export function* watchEditIdeaSagaAsync() {
+//   yield takeLatest(editIdea().type, editIdeaSagaAsync);
+// }
 
-export function* editIdeaSagaAsync() {
-    try {
-        // NavigationService.push(ideasScreenName, { view: 'update' });
-        NavigationService.navigate(ideasScreenName, { view: 'update' });
-    } catch (error) {
-        const errorMessage = apiErrorHandler(error);
+// export function* editIdeaSagaAsync() {
+//     try {
+//         // NavigationService.push(ideasScreenName, { view: 'update' });
+//         NavigationService.navigate('updateIdea', { view: 'update' });
+//     } catch (error) {
+//         const errorMessage = apiErrorHandler(error);
 
-        yield put(updateIdeaFailure(errorMessage));
-    }
-}
+//         yield put(updateIdeaFailure(errorMessage));
+//     }
+// }
 
 export function* watchUpdateIdeaSagaAsync() {
   yield takeLatest(updateIdea().type, updateIdeaSagaAsync);
