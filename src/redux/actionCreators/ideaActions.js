@@ -1,5 +1,5 @@
 import * as types from '../constants/actionTypes';
-import { limit, sortOption1 } from '../../helpers/defaults';
+import { sortOption1 } from '../../helpers/defaults';
   
 export const createIdea = ideaData => ({
     type: types.CREATE_IDEA,
@@ -49,12 +49,21 @@ export const getIdea = (ideaId) => ({
     ideaId
 });
 
-export const getAllIdeas = (Limit = limit, offset = 0, sort = sortOption1.value) => ({
+
+export const sortIdeas = sortOption => ({
+    type: types.SORT_IDEAS,
+    sortOption
+});
+
+export const getAllIdeas = (
+    limit = 10, offset = 0, sort = sortOption1.value, showLoader = true
+) => ({
     type: types.GET_ALL_IDEAS,
     options: {
-        limit: Limit,
+        limit,
         offset,
-        sort
+        sort,
+        showLoader
     }
 });
   
@@ -86,9 +95,4 @@ export const deleteIdeaSuccess = ideaId => ({
 export const deleteIdeaFailure = error => ({
     type: types.DELETE_IDEA_FAILURE,
     error
-});
-
-export const sortIdea = sortOption => ({
-    type: types.SORT_IDEAS,
-    sortOption
 });

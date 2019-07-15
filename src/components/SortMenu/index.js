@@ -20,12 +20,12 @@ import {
     ideasScreenName,
     sortOptions
 } from "../../helpers/defaults";
-import { getAllIdeas } from '../../redux/actionCreators/ideaActions';
+import { getAllIdeas, sortIdeas } from '../../redux/actionCreators/ideaActions';
 
 const SortMenu = (props) => {
     const { 
         navigation, isLoading, getAllIdeas, deleteIdea,
-        limit, offset, total, openModal, closeModal,
+        limit, offset, total, openModal, closeModal, sortIdeas,
         editIdea, currentSortOption
     } = props;
 
@@ -44,7 +44,8 @@ const SortMenu = (props) => {
     // }, []);
 
     const handleSortOptionClick = (sortOptionValue) => {
-        getAllIdeas(limit, 0, sortOptionValue);
+        // getAllIdeas(limit, 0, sortOptionValue);
+        sortIdeas(sortOptionValue);
     }
 
     const getMenuOptionStyle = (sortOptionValue) => {
@@ -111,6 +112,7 @@ SortMenu.propTypes = {
     offset: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
     getAllIdeas: PropTypes.func.isRequired,
+    sortIdeas: PropTypes.func.isRequired,
     currentSortOption: PropTypes.string.isRequired,
 };
 
@@ -123,7 +125,8 @@ export const mapStateToProps = ({ idea }) => ({
 });
 
 const mapDispatchToProps = {
-    getAllIdeas
+    getAllIdeas,
+    sortIdeas
 };
 
 

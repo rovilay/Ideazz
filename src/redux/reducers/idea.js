@@ -105,12 +105,16 @@ const idea = (state = initialState, action) => {
                 isLoading: false,
                 ideaOnFocus: state.ideas.find(idea => idea.id === action.ideaId)
             };
+        case SORT_IDEAS:
+            return {
+                ...state,
+                sortOption: action.sortOption,
+                newSort: action.sortOption !== state.sortOption
+            };
         case GET_ALL_IDEAS:
             return {
                 ...state,
-                isLoading: true,
-                sortOption: action.options.sort,
-                newSort: action.options.sort !== state.sortOption
+                isLoading: action.options.showLoader,
             };
         case GET_ALL_IDEAS_SUCCESS:
             return {
@@ -119,7 +123,8 @@ const idea = (state = initialState, action) => {
                 ideas: state.newSort ? action.ideas : [...state.ideas, ...action.ideas],
                 pagination: {...action.pagination},
                 errors: initialState.errors,
-                ideaOnFocus: initialState.ideaOnFocus
+                ideaOnFocus: initialState.ideaOnFocus,
+                newSort: false                
             };
         case GET_ALL_IDEAS_FAILURE:
             return {
@@ -153,11 +158,6 @@ const idea = (state = initialState, action) => {
                     errors: action.error,
                     state: true,
                 },
-            };
-        case SORT_IDEAS:
-            return {
-                ...state,
-                sortOption: action.sortOption,
             };
         case LOG_OUT_USER:
             return {

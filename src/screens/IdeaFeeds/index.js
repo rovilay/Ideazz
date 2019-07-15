@@ -38,17 +38,22 @@ const IdeaFeeds = (props) => {
 
     useEffect(() => {
         console.log('here1111')
-        if (!newSort && (!ideas.length || ideas.length < total)) {
+        if (newSort || !ideas.length) {
             console.log('here here')
-            getAllIdeas(limit, offset, currentSortOption);
+            getAllIdeas(limit, 0, currentSortOption);
         }
-    }, []);
+    }, [currentSortOption]);
 
     const handleScrollEnd = () => {
-        if (ideas.length >= limit && ideas.length < total) {
+        if (ideas.length < total) {
             console.log('here222')
             const nextOffset = offset + limit;
-            getAllIdeas(limit, nextOffset, currentSortOption);
+            getAllIdeas(
+                limit, 
+                nextOffset, 
+                currentSortOption, 
+                false
+            );
         }
     }
 
@@ -227,7 +232,7 @@ const IdeaFeeds = (props) => {
                 contentContainerStyle={ideaFeedsStyles.container}
                 data={ideas}
                 keyExtractor={(_, index) => index.toString()}
-                onEndReached={handleScrollEnd}
+                onEndReached={() => handleScrollEnd()}
                 onEndReachedThreshold={0}
                 renderItem={({ item }) => renderFeed(item)}
             />
