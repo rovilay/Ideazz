@@ -17,7 +17,6 @@ import generalStyles from "../../components/generalStyles";
 import ideaFeedsStyles from "./styles";
 import {
     confidenceRatingTitle, impactRatingTitle, easeRatingTitle,
-    ideasScreenName
 } from "../../helpers/defaults";
 import { 
     getAllIdeas, getIdea, editIdea, deleteIdea 
@@ -30,23 +29,20 @@ const IdeaFeeds = (props) => {
     const [ideaOnView, setIdeaOnView] = useState(null);
 
     const { 
-        utils: { modal }, navigation, newSort,
+        utils: { modal }, newSort,
         ideas, isLoading, getAllIdeas, deleteIdea,
         limit, offset, total, openModal, closeModal,
         editIdea, currentSortOption
     } = props;
 
     useEffect(() => {
-        console.log('here1111')
         if (newSort || !ideas.length) {
-            console.log('here here')
             getAllIdeas(limit, 0, currentSortOption);
         }
     }, [currentSortOption]);
 
     const handleScrollEnd = () => {
         if (ideas.length < total) {
-            console.log('here222')
             const nextOffset = offset + limit;
             getAllIdeas(
                 limit, 

@@ -1,8 +1,7 @@
 import axios from 'axios';
+import Env from '../config/env';
 
-// require('dotenv').config();
-
-const baseUrl = process.env.REACT_APP_API_URL;
+const baseUrl = Env.apiUrl;
 
 class UserAPI {
     static signUpUser(userData) {

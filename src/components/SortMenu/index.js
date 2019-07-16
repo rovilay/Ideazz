@@ -1,8 +1,5 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from 'react-redux';
-import { View, FlatList, ActivityIndicator, Alert } from "react-native";
-import { ListItem, Badge, Card } from "react-native-elements";
-import Icon from "react-native-vector-icons/SimpleLineIcons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import PropTypes from 'prop-types';
 import {
@@ -14,37 +11,13 @@ import {
 
 import Text from "../../components/CustomText";
 import generalStyles from "../../components/generalStyles";
-import ideaFeedsStyles from "./styles";
-import {
-    confidenceRatingTitle, impactRatingTitle, easeRatingTitle,
-    ideasScreenName,
-    sortOptions
-} from "../../helpers/defaults";
-import { getAllIdeas, sortIdeas } from '../../redux/actionCreators/ideaActions';
+import { sortOptions } from "../../helpers/defaults";
+import { sortIdeas } from '../../redux/actionCreators/ideaActions';
 
 const SortMenu = (props) => {
-    const { 
-        navigation, isLoading, getAllIdeas, deleteIdea,
-        limit, offset, total, openModal, closeModal, sortIdeas,
-        editIdea, currentSortOption
-    } = props;
-
-    useEffect(() => {
-        // if (!ideas.length || ideas.length < total) {
-        //     getAllIdeas();
-        // }
-    }, []);
-
-    // useEffect(() => {
-    //     console.log('here1111')
-    //     if (!newSort && !ideas.length || ideas.length < total) {
-    //         console.log('here here')
-    //         getAllIdeas(limit, offset, currentSortOption);
-    //     }
-    // }, []);
+    const { sortIdeas, currentSortOption } = props;
 
     const handleSortOptionClick = (sortOptionValue) => {
-        // getAllIdeas(limit, 0, sortOptionValue);
         sortIdeas(sortOptionValue);
     }
 
@@ -107,25 +80,15 @@ const SortMenu = (props) => {
 }
 
 SortMenu.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    limit: PropTypes.number.isRequired,
-    offset: PropTypes.number.isRequired,
-    total: PropTypes.number.isRequired,
-    getAllIdeas: PropTypes.func.isRequired,
     sortIdeas: PropTypes.func.isRequired,
     currentSortOption: PropTypes.string.isRequired,
 };
 
 export const mapStateToProps = ({ idea }) => ({ 
-    isLoading: idea.isLoading,
-    limit: idea.pagination.limit,
-    offset: idea.pagination.offset,
-    total: idea.pagination.total,
     currentSortOption: idea.sortOption
 });
 
 const mapDispatchToProps = {
-    getAllIdeas,
     sortIdeas
 };
 

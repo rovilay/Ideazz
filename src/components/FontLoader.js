@@ -31,7 +31,6 @@ const FontProvider = (props) => {
                 :
                 <ActivityIndicator />
             }
-            {/* {children} */}
         </FontContext.Provider>
     );
 }
