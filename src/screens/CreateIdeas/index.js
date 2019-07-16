@@ -10,7 +10,7 @@ import generalStyles from "../../components/generalStyles";
 import ideasScreenStyles from "./styles";
 import { 
     confidenceRatingTitle, easeRatingTitle, createIdeaScreenName,
-    impactRatingTitle, minimumRating, maximumRating
+    impactRatingTitle, minimumRating, maximumRating, updateIdeaScreenName
 } from "../../helpers/defaults";
 import { 
     createIdea, updateIdea,
@@ -78,6 +78,13 @@ const IdeasScreen = (props) => {
         } else {
             confirmField.errorMessage = ''
         }
+
+        if (view === updateIdeaScreenName &&
+            field !== 'title' && ideaForm.title.value &&
+            !ideaForm.title.valid
+            ) {
+                ideaForm.title.valid = true;
+            }
 
         setIdeaForm({
             ...ideaForm,
