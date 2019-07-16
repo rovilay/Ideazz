@@ -26,12 +26,12 @@ const FontProvider = (props) => {
 
     return (
         <FontContext.Provider value={fontLoaded}>
-            {/* {fontLoaded ?
+            {fontLoaded ?
                 children
                 :
                 <ActivityIndicator />
-            } */}
-            {children}
+            }
+            {/* {children} */}
         </FontContext.Provider>
     );
 }

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // require('dotenv').config();
 
-const baseUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5555/api/v1";
+const baseUrl = process.env.REACT_APP_API_URL;
 
 class UserAPI {
     static signUpUser(userData) {

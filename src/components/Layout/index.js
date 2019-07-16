@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
-import { Header } from "react-native-elements";
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fontLoader, authenticateScreen } from "../../helpers/utils"; 
-import Logo from '../Logo/index';
 import layoutStyle from "./styles";
-import Hamburger from "../Hamburger";
 import {
     loadFonts,
     loadFontsFailure,

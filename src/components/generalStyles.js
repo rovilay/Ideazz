@@ -6,8 +6,6 @@ const generalStyles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
     },
-    header: {
-    },
     title: {
         fontWeight: 'bold',
         fontSize: 24,
